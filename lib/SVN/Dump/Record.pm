@@ -23,9 +23,13 @@ sub type {
 
 sub has_text { return exists $_[0]->{headers}{'Text-content-length'} }
 sub has_prop { return exists $_[0]->{headers}{'Prop-content-length'} }
+sub has_prop_only {
+    return exists $_[0]->{headers}{'Prop-content-length'}
+        && !exists $_[0]->{headers}{'Text-content-length'};
+}
 sub has_prop_or_text {
     return exists $_[0]->{headers}{'Prop-content-length'}
-        || exists $_[0]->{headers}{'Prop-content-length'};
+        || exists $_[0]->{headers}{'Text-content-length'};
 }
 
 sub as_string {
