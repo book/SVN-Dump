@@ -56,8 +56,8 @@ sub read_record {
     my $type = $headers->type();
     <$fh> if $type !~ /\A(?:format|uuid)\z/;
 
-    # chop another one after a node with prop or text block
-    <$fh> if $type eq 'node' && $record->has_prop_or_text();
+    # chop another one after a node with only a prop block
+    <$fh> if $type eq 'node' && $record->has_prop_only();
 
     # uuid and format record only contain headers
     return $record;
@@ -77,6 +77,9 @@ sub read_header_block {
         my ($key, $value) = split /: /, $line, 2;
         $headers->{$key} = $value;
     }
+
+    croak "Empty line found instead of a header block line $."
+       if ! keys %$headers;
 
     return $headers;
 }
@@ -139,12 +142,14 @@ sub read_text_block {
     local $/ = $NL;
 
     my $text = '';
-    while( length($text) < $size ) {
+    while( length($text) <= $size ) {
         my $line = <$fh>;
         croak _eof() if ! defined $line;
         $text .= $line;
     }
-    chop $text if length($text) != $size; # text with no EOL
+
+    # remove extra $NL
+    chop $text while length($text) > $size;
 
     return SVN::Dump::Text->new( $text );
 }
