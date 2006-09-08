@@ -36,7 +36,7 @@ sub as_string {
         for @{ $self->{keys} };
 
     # end marker
-    $string .= "PROPS-END$NL$NL";
+    $string .= "PROPS-END$NL";
 
     return $string;
 }

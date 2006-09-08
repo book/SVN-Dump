@@ -31,7 +31,6 @@ thwapp
 V 4
 owww
 PROPS-END
-
 END_OF_PROPERTY
 
 plan tests => 13 + 2 * @tests;
