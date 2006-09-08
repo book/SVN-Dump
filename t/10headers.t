@@ -7,7 +7,7 @@ use SVN::Dump::Reader;
 
 my @files = glob catfile( 't', 'dump', 'headers', '*' );
 
-plan tests => scalar @files;
+plan tests => 2 * @files;
 
 for my $f (@files) {
     my $expected = file_content($f);
@@ -19,5 +19,6 @@ for my $f (@files) {
     my $h    = $dump->read_header_block();
 
     is_same_string( $h->as_string(), $expected, "Read $f headers" );
+    like( $f, qr/@{[$h->type()]}/, "Correct type detected for $f" );
 }
 
