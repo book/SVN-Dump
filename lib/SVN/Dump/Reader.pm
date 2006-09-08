@@ -103,7 +103,7 @@ sub read_property_block {
          
             if( $line =~ /\AV (\d+)\z/ ) {
                 my $value = '';
-                $value .= <$fh> while length($value) < $1;
+                $value .= <$fh> while length($value) <= $1;
                 chop $value; # remove the last $NL
 
                 $property->set( $key => $value );
