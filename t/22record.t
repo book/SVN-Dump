@@ -7,7 +7,7 @@ use SVN::Dump::Reader;
 
 my @files = glob catfile( 't', 'dump', 'records', '*' );
 
-plan tests => scalar @files;
+plan tests => 2 * @files;
 
 for my $f (@files) {
     my $expected = file_content($f);
@@ -19,5 +19,6 @@ for my $f (@files) {
     my $dump = SVN::Dump::Reader->new($fh);
     my $r    = $dump->read_record();
     is_same_string( $r->as_string(), $expected, "Read $f record" );
+    is( tell($fh), -s $f, "Read all of $f" );
 }
 
