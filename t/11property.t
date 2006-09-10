@@ -12,7 +12,7 @@ my @tests = (
     [ thwapp => 'owww' ],
 );
 
-# the 
+# the expected string representation
 my $as_string = << 'END_OF_PROPERTY';
 K 5
 bloop
@@ -35,7 +35,7 @@ END_OF_PROPERTY
 
 plan tests => 13 + 2 * @tests;
 
-#
+# create a new empty property block
 my $p = SVN::Dump::Property->new();
 isa_ok( $p, 'SVN::Dump::Property' );
 
