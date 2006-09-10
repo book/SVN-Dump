@@ -76,13 +76,64 @@ C<SVN::Dump> provides the following methods:
 
 =over 4
 
+=item new()
+
+Create a new empty C<SVN::Dump::Record> object.
+
+=item type()
+
+Return the record type, as guessed from its headers.
+
+The method dies if the record type cannot be determined.
+
+=item set_headers( $headers )
+
 =item get_headers()
 
-Return a C<SVN::Dump::Headers> object.
+Get or set the C<SVN::Dump::Headers> object that represents the record
+headers.
+
+=item set_property( $property )
+
+=item get_property()
+
+Get or set the C<SVN::Dump::Property> object that represents the record
+property block.
+
+=item set_text( $text )
+
+=item get_text()
+
+Get or set the C<SVN::Dump::Text> object that represents the record
+text block.
+
+=item has_prop()
+
+Return a boolean value indicating if the record has a property block.
+
+=item has_text()
+
+Return a boolean value indicating if the record has a text block.
+
+=item has_prop_only()
+
+Return a boolean value indicating if the record has only a property block
+(and no text block).
+
+=item has_prop_or_text()
+
+Return a boolean value indicating if the record has a property block
+or a text block.
+
+=item as_string()
+
+Return a string representation of the record.
 
 =back
 
 =head1 SEE ALSO
+
+C<SVN::Dump::Headers>, C<SVN::Dump::Property>, C<SVN::Dump::Text>.
 
 =head1 COPYRIGHT & LICENSE
 
@@ -92,5 +143,4 @@ This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
 
 =cut
-
 
