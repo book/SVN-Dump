@@ -78,6 +78,7 @@ sub read_header_block {
         $headers->{$key} = $value;
     }
 
+    use Data::Dumper;print Dumper $headers;
     croak "Empty line found instead of a header block line $."
        if ! keys %$headers;
 
@@ -166,6 +167,34 @@ SVN::Dump::Reader -
 =head1 SYNOPSIS
 
 =head1 DESCRIPTION
+
+=head1 METHODS
+
+The following methods are available:
+
+=over 4
+
+=item new( $fh )
+
+Create a new C<SVN::Dump::Reader> attached to the C<$fh> filehandle.
+
+=item read_record( )
+
+Read and return a new S<SVN::Dump::Record> object from the dump filehandle.
+
+=item read_header_block( )
+
+Read and return a new S<SVN::Dump::Headers> object from the dump filehandle.
+
+=item read_property_block( )
+
+Read and return a new S<SVN::Dump::Property> object from the dump filehandle.
+
+=item read_text_block( )
+
+Read and return a new S<SVN::Dump::Text> object from the dump filehandle.
+
+=back
 
 =head1 SEE ALSO
 
