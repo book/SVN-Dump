@@ -93,7 +93,7 @@ Return a string that represents the record headers.
 
 =item type()
 
-One can guess the record type from its headers.
+It is possible to guess the record type from its headers.
 
 This method returns a string that represents the record type.
 The string is one of C<revision>, C<node>, C<uuid> or C<format>.

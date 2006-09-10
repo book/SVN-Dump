@@ -50,8 +50,43 @@ __END__
 SVN::Dump::Property - A property block from a svn dump
 
 =head1 SYNOPSIS
-
+ 
 =head1 DESCRIPTION
+
+The C<SVN::Dump::Property> class represents a property block in a svn
+dump.
+
+=head1 METHODS
+
+The following methods are available:
+
+=over 4
+
+=item new()
+
+Create a new empty property block.
+
+=item set( $key => $value)
+
+Set the C<$key> property with value C<$value>.
+
+=item get( $key )
+
+Get the value of property C<$key>.
+
+=item keys()
+
+Return the property block keys, in the order they were entered.
+
+=item values()
+
+Return the property block values, in the order they were entered.
+
+=item as_string()
+
+Return a string representation of the property block.
+
+=back
 
 =head1 SEE ALSO
 

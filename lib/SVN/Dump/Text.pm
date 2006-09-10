@@ -30,6 +30,30 @@ SVN::Dump::Text - A text block from a svn dump
 
 =head1 DESCRIPTION
 
+=head1 METHODS
+
+The following methods are available:
+
+=over 4
+
+=item new( $text )
+
+Create a new C<SVN::Dump::Text> object, initialised with the given text.
+
+=item get()
+
+Return the text of the C<SVN::Dump::Text> object.
+
+=item set( $text )
+
+Set the text of the C<SVN::Dump::Text> object.
+
+=item as_string()
+
+Return a string representation of the text block.
+
+=back
+
 =head1 SEE ALSO
 
 =head1 COPYRIGHT & LICENSE
