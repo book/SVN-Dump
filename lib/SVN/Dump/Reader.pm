@@ -89,7 +89,6 @@ sub read_header_block {
         $headers->{$key} = $value;
     }
 
-    use Data::Dumper;print Dumper $headers;
     croak "Empty line found instead of a header block line $."
        if ! keys %$headers;
 
