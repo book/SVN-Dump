@@ -52,6 +52,17 @@ sub read_record {
         + ( $headers->{'Text-content-length'} || 0 )
         == ( $headers->{'Content-length'} || 0 );
 
+    # if we have a delete record with a 'Node-kind' header
+    # we have to recurse for an included record
+    if (   exists $headers->{'Node-action'}
+        && $headers->{'Node-action'} eq 'delete'
+        && exists $headers->{'Node-kind'} )
+    {
+        my $included = $fh->read_record();
+        $record->set_included( $included );
+        <$fh>; # chop the empty line that follows
+    }
+
     # chop empty line after the record
     my $type = $headers->type();
     <$fh> if $type !~ /\A(?:format|uuid)\z/;

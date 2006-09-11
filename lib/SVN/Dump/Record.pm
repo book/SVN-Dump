@@ -10,7 +10,7 @@ sub new {
     return bless {}, $class
 }
 
-for my $attr (qw( headers property text )) {
+for my $attr (qw( headers property text included )) {
     no strict 'refs';
     *{"set_$attr"} = sub { $_[0]->{$attr} = $_[1]; };
     *{"get_$attr"} = sub { $_[0]->{$attr} };
@@ -46,6 +46,11 @@ sub as_string {
     # the text
     $string .= $self->get_text()->as_string()
         if exists $headers->{'Text-content-length'};
+
+    # is there an included record?
+    if( my $included = $self->get_included() ) {
+        $string .= $included->as_string() . $NL;
+    }
 
     # add a record separator if needed
     my $type = $self->type();
@@ -106,6 +111,37 @@ property block.
 
 Get or set the C<SVN::Dump::Text> object that represents the record
 text block.
+
+=item set_included( $record )
+
+=item get_included()
+
+Some special record are actually output recursiveley by B<svnadmin dump>.
+The "record in the record" is stored within the parent record, so they
+are parsed as a single record with an included record.
+
+C<get_record()> / C<set_record()> give access to the included record.
+
+According to the Subversion sources (F<subversion/libsvn_repos/dump.c>),
+this is a "delete original, then add-with-history" node. The dump looks
+like this:
+
+    Node-path: tags/mytag/myfile
+    Node-kind: file
+    Node-action: delete
+    
+    Node-path: tags/mytag/myfile
+    Node-kind: file
+    Node-action: add
+    Node-copyfrom-rev: 23
+    Node-copyfrom-path: trunk/myfile
+    
+    
+    
+    
+
+Note that there is a single blank line after the first header block,
+and four after the included one.
 
 =item has_prop()
 
