@@ -41,7 +41,7 @@ sub read_record {
     $record->set_property( $fh->read_property_block() )
         if exists $headers->{'Prop-content-length'};
 
-    # get the property block
+    # get the text block
     $record->set_text(
         $fh->read_text_block( $headers->{'Text-content-length'} ) )
         if exists $headers->{'Text-content-length'};
