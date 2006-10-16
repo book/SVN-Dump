@@ -122,7 +122,7 @@ sub read_property_block {
 
                 $property->set( $key => $value );
 
-                # FIXME what happends if we see duplicate keys?
+                # FIXME what happens if we see duplicate keys?
             }
             else {
                 croak "Corrupted property"; # FIXME better error message
@@ -172,11 +172,20 @@ __END__
 
 =head1 NAME
 
-SVN::Dump::Reader - 
+SVN::Dump::Reader - A Subversion dump reader
 
 =head1 SYNOPSIS
 
+    # !!! You should use SVN::Dump, not SVN::Dump::Reader !!!
+
+    use SVN::Dump::Reader;
+    my $reader = SVN::Dump::Reader( $fh );
+    my $record = $reader->read_record();
+
 =head1 DESCRIPTION
+
+The C<SVN::Dump::Reader> class implements a reader object for Subversion
+dumps.
 
 =head1 METHODS
 
@@ -206,7 +215,13 @@ Read and return a new S<SVN::Dump::Text> object from the dump filehandle.
 
 =back
 
+The C<read_...> methods will die horribly if asked to read inconsistent
+data from a stream.
+
 =head1 SEE ALSO
+
+L<SVN::Dump>, L<SVN::Dump::Headers>, L<SVN::Dump::Property>,
+L<SVN::Dump::Text>.
 
 =head1 COPYRIGHT & LICENSE
 
