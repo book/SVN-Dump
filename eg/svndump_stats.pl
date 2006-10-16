@@ -16,11 +16,10 @@ while ( my $record = $dump->next_record() ) {
 }
 
 # print the results
-print "Dump $file statistics:\n",
+print "Statistics for dump $file:\n",
       "  version:   ", $dump->version(), "\n",
       "  uuid:      ", $dump->uuid(), "\n",
       "  revisions: ", $type{revision}, "\n",
       "  nodes:     ", $type{node}, "\n";
-print
-      map { sprintf "  - %-7s: %d\n", $_, $kind{$_} } keys %kind;
+print map { sprintf "  - %-7s: %d\n", $_, $kind{$_} } sort keys %kind;
 
