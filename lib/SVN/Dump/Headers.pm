@@ -24,8 +24,10 @@ my %headers = (
             Node-action
             Node-copyfrom-rev
             Node-copyfrom-path
+            Prop-delta
             Prop-content-length
             Text-copy-source-md5
+            Text-delta
             Text-content-length
             Text-content-md5
             Content-length
