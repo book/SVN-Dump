@@ -106,6 +106,7 @@ sub read_property_block {
         croak _eof() if !defined $line;
         chop $line;
 
+        # read a key/value pair
         if( $line =~ /\AK (\d+)\z/ ) {
             my $key = '';
             $key .= <$fh> while length($key) < $1;
@@ -128,17 +129,20 @@ sub read_property_block {
                 croak "Corrupted property"; # FIXME better error message
             }
         }
+        # or a deleted key (only with fs-format-version >= 3)
+        # FIXME shall we fail if fs-format-version < 3?
         elsif( $line =~ /\AD (\d+)\z/ ) {
             my $key = '';
             $key .= <$fh> while length($key) < $1;
             chop $key; # remove the last $NL
             
-            # FIXME only with fs-format-version >= 3
             $property->set( $key => undef ); # undef means deleted
         }
+        # end of properties
         elsif( $line =~ /\APROPS-END\z/ ) {
             last;
         }
+        # inconsistent data
         else {
             croak "Corrupted property"; # FIXME better error message
         }
