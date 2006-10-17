@@ -1,5 +1,5 @@
 CVS/.*
-.svn
+\.svn/
 \.bak$
 \.sw[a-z]$
 \.tar$
