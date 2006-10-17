@@ -165,6 +165,10 @@ or a text block.
 
 Return a string representation of the record.
 
+B<Warning:> dumping a record currenly gives back the information that
+was read from the original dump. Which means that if you modified the
+property or text block of a record, the headers will be inconstent.
+
 =back
 
 =head1 SEE ALSO
