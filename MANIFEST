@@ -1,4 +1,5 @@
 Build.PL
+Changes
 eg/svndump_stats.pl
 lib/SVN/Dump.pm
 lib/SVN/Dump/Headers.pm
@@ -24,6 +25,7 @@ t/dump/full/test123-r0-r3.svn
 t/dump/full/test123-r0-r4.svn
 t/dump/full/test123-r0-r6.svn
 t/dump/full/test123-r0.svn
+t/dump/full/test123-r11-r14-v3.svn
 t/dump/full/test123-v3.svn
 t/dump/headers/dir-node.svn
 t/dump/headers/file-node.svn
