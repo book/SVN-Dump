@@ -123,11 +123,11 @@ Return the next record read from the dump.
 
 =item version()
 
-Return the dump format version.
+Return the dump format version, if the version record has already been read.
 
 =item uuid()
 
-Return the dump UUID.
+Return the dump UUID, if there is an UUID record and it has been read.
 
 =item as_string()
 
