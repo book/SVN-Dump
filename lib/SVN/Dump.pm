@@ -27,11 +27,10 @@ RECORD: {
         $record = $self->{reader}->read_record();
         return unless $record;
 
-        # load the first records transparently
+        # keep the first records in the dump itself
         my $type = $record->type();
         if ( $type =~ /\A(?:format|uuid)\z/ ) {
             $self->{$type} = $record;
-            redo RECORD;
         }
     }
 
