@@ -29,10 +29,13 @@ sub as_string {
     my $string = '';
 
     $string .=
-          ( "K " . length($_) . $NL )
-        . "$_$NL"
+        defined $self->{hash}{$_}
+        # existing key
+        ? ( "K " . length($_) . $NL ) . "$_$NL"
         . ( "V " . length( $self->{hash}{$_} ) . $NL )
         . "$self->{hash}{$_}$NL"
+        # deleted key (v3)
+        : ( "D " . length($_) . "$NL$_$NL" )
         for @{ $self->{keys} };
 
     # end marker
