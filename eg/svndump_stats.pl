@@ -3,8 +3,7 @@ use strict;
 use warnings;
 use SVN::Dump;
 
-my $file = shift;
-my $dump = SVN::Dump->new( { file => $file } );
+my $dump = SVN::Dump->new( { file => @ARGV ? $ARGV[0] : '-' } );
 
 # compute some stats
 my %type;
