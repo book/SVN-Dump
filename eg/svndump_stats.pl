@@ -4,6 +4,7 @@ use warnings;
 use SVN::Dump;
 
 my $dump = SVN::Dump->new( { file => @ARGV ? $ARGV[0] : '-' } );
+my $file = @ARGV ? $ARGV[0] : "on STDIN";
 
 # compute some stats
 my %type;
