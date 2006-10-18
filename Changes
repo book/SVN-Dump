@@ -1,0 +1,13 @@
+Revision history for SVN-Dump
+
+0.01 Wed Oct 18 18:25:31 CEST 2006
+        [FEATURES]
+        - SVN::Dump is able to read dumps in version 2 and 3
+          and output an identical dump
+        [TESTS]
+        - 100% coverage for SVN::Dump::Headers, SVN::Dump::Property,
+          SVN::Dump::Reader, SVN::Dump::Record, SVN::Dump::Text
+        [EXAMPLES]
+        - eg/svndump_identidy.pl - read a dump and prints it out
+        - eg/svndump_stats.pl    - produces a set of statistic about a dump
+
