@@ -17,7 +17,7 @@ for my $f (@files) {
     my $func = <$fh>; # first line contains the method name
     my $err  = <$fh>; # second line contains the error regexp
     chop for ($err, $func);
-    my ($func, @args) = split / /, $func;
+    ($func, my @args) = split / /, $func;
 
     my $r = SVN::Dump::Reader->new($fh);
     eval { $r->$func(@args); };
