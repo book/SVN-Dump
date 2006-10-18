@@ -16,12 +16,12 @@ for my $f (@files) {
     # read the test information from the test file itself
     my $func = <$fh>; # first line contains the method name
     my $err  = <$fh>; # second line contains the error regexp
-    chop $func;
-    chop $err;
+    chop for ($err, $func);
+    my ($func, @args) = split / /, $func;
 
     my $r = SVN::Dump::Reader->new($fh);
-    eval { $r->$func(); };
-    isnt( $@, '', "$func() failed for $f" );
+    eval { $r->$func(@args); };
+    ok( $@, "$func(@{[join',',@args]}) failed for $f" );
     like( $@, qr/$err/, "  with the expected error ($err)" );
 }
 
