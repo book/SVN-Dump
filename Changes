@@ -1,0 +1,10 @@
+Revision history for SVN-Dump
+
+0.01 
+        [FEATURES]
+        - SVN::Dump is able to read dumps in version 2 and 3
+          and output an identical dump
+        [EXAMPLES]
+        - eg/svndump_identidy.pl - read a dump and prints it out
+        - eg/svndump_stats.pl    - produces a set of statistic about a dump
+
