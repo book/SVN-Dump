@@ -48,9 +48,9 @@ sub read_record {
 
     # some safety checks
     croak "Inconsistent record size"
-        if !( $headers->{'Prop-content-length'} || 0 )
+        if ( $headers->{'Prop-content-length'} || 0 )
         + ( $headers->{'Text-content-length'} || 0 )
-        == ( $headers->{'Content-length'} || 0 );
+        != ( $headers->{'Content-length'} || 0 );
 
     # if we have a delete record with a 'Node-kind' header
     # we have to recurse for an included record
