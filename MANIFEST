@@ -1,5 +1,6 @@
 Build.PL
 Changes
+eg/svndump_identity.pl
 eg/svndump_stats.pl
 lib/SVN/Dump.pm
 lib/SVN/Dump/Headers.pm
@@ -12,6 +13,7 @@ MANIFEST			This list of files
 META.yml
 README
 t/00load.t
+t/09reader.t
 t/10headers.t
 t/11property.t
 t/12text.t
@@ -20,6 +22,17 @@ t/20headers.t
 t/21property.t
 t/23record.t
 t/25dump.t
+t/29fail.t
+t/dump/fail/h_blank.svn
+t/dump/fail/h_empty.svn
+t/dump/fail/h_noblank.svn
+t/dump/fail/p_empty.svn
+t/dump/fail/p_eof.svn
+t/dump/fail/p_eofval.svn
+t/dump/fail/p_noend.svn
+t/dump/fail/p_noval.svn
+t/dump/fail/r_badsum.svn
+t/dump/fail/t_eof.svn
 t/dump/full/test123-r0-r10.svn
 t/dump/full/test123-r0-r3.svn
 t/dump/full/test123-r0-r4.svn
