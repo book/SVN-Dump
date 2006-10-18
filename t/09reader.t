@@ -10,7 +10,7 @@ my %test = (
     object    => bless( {}, 'Zlonk'),
 );
 
-plan tests => 1 + keys %test;
+plan tests => scalar keys %test;
 
 for my $t ( keys %test ) {
     eval { my $r = SVN::Dump::Reader->new( $test{$t} ); };
