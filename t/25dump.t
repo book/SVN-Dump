@@ -12,7 +12,7 @@ plan tests => 2 * @files;
 for my $f (@files) {
     my $expected = file_content($f);
     open my $fh, $f or do {
-        ok( 0, "Failed to open $f: $!" );
+        fail( "Failed to open $f: $!" ) for 1..2;
         next;
     };
 

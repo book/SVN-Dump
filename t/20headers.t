@@ -12,7 +12,7 @@ plan tests => 3 * @files;
 for my $f (@files) {
     my $expected = file_content($f);
     open my $fh, $f or do {
-        ok( 0, "Failed to open $f: $!" );
+        fail("Failed to open $f: $!") for 1 .. 3;
         next;
     };
     my $dump = SVN::Dump::Reader->new($fh);
