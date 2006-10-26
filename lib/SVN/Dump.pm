@@ -13,8 +13,11 @@ sub new {
 
     # create the Reader object now
     my $self = bless {}, $class;
-    open my $fh, $args->{file} or croak "Can't open $args->{file}: $!";
-    $self->{reader} = SVN::Dump::Reader->new( $fh );
+    my $fh = $args->{fh};
+    if ( !$fh ) {
+        open $fh, $args->{file} or croak "Can't open $args->{file}: $!";
+    }
+    $self->{reader} = SVN::Dump::Reader->new($fh);
 
     return $self;
 }
