@@ -45,7 +45,7 @@ sub property_length {
 
 sub text_length {
     my ($self) = @_;
-    my $text = $self->get_text_block();
+    my $text = $self->get_text();
     return defined $text ? length($text) : 0;
 }
 
@@ -120,7 +120,11 @@ sub set_text {
         'Content-length' => length($t) + $self->property_length() );
 }
 
-sub get_text { $_[0]->get_text_block()->get(); }
+sub get_text {
+    my ($self) = @_;
+    my $text_block = $self->get_text_block();
+    return defined $text_block ? $text_block->get() : undef;
+}
 
 1;
 
