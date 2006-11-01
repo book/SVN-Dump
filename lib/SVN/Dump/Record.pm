@@ -32,6 +32,19 @@ sub has_prop_or_text {
         || defined $_[0]->get_text_block();
 }
 
+# length methods
+sub get_property_length {
+    my ($self) = @_;
+    my $prop = $self->get_property_block();
+    return defined $prop ? length( $prop->as_string() ) : 0;
+}
+
+sub get_text_length {
+    my ($self) = @_;
+    my $text = $self->get_text_block();
+    return defined $text ? length($text) : 0;
+}
+
 sub as_string {
     my ($self) = @_;
     my $headers_block = $self->get_headers_block();
@@ -77,11 +90,13 @@ sub get_header {
 }
 
 sub set_property {
-    my ($self, $k, $v) = @_;
+    my ( $self, $k, $v ) = @_;
     my $prop = $self->get_property_block()
       || $self->set_property_block( SVn::Dump::Property->new() );
     $prop->set( $k, $v );
-    $self->set_header( 'Prop-content-length', length( $prop->as_string() ) );
+    my $l = length( $prop->as_string() );
+    $self->set_header( 'Prop-content-length', $l );
+    $self->set_header( 'Content-length' => $l + $self->get_text_length() );
     return $v;
 }
 
@@ -97,6 +112,8 @@ sub set_text {
 
     $text_block->set( $t );
     $self->set_header( 'Text-content-length' => length( $t ) );
+    $self->set_header(
+        'Content-length' => length($t) + $self->get_property_length() );
 }
 
 sub get_text { $_[0]->get_text_block()->get(); }
