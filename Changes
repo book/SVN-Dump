@@ -5,8 +5,8 @@ Revision history for SVN-Dump
         *** WARNING: INCOMPATIBLES API CHANGES FROM VERSION 0.01 ***
 
         [ENHANCEMENTS]
-        The following changes should make record manipulation more
-        straightforward and simple:
+        - SVN::Dump->new() now also accepts a filehandle
+          (thanks to clkao, RT ticket #22429)
         - Renamed the record manipulation methods of SVN::Dump::Record to
           set_headers_block()  / get_headers_block(),
           set_property_block() / get_property_block(),
