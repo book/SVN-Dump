@@ -43,13 +43,13 @@ EOT
 is( $rec->type(), '', q{No headers yet, can't determine type} );
 
 # give the record some headers
-$rec->set_headers( $h );
+$rec->set_headers_block( $h );
 is( $rec->type(), $h->type(), 'Type given by the headers' );
 ok( ! $rec->has_prop(), 'Record has no property block' );
 ok( ! $rec->has_text(), 'Record has no text block' );
 
 # add some properties
-$rec->set_property( $p );
+$rec->set_property_block( $p );
 $h->{$_->[0]} = $_->[1] for (
     [ 'Prop-content-length' => '115' ],
     [ 'Content-length' => '115' ],
@@ -60,7 +60,7 @@ ok( $rec->has_prop_only(), 'Record has only a property block' );
 ok( $rec->has_prop_or_text(), 'Record has a property or text block' );
 
 # add some text
-$rec->set_text( $t );
+$rec->set_text_block( $t );
 $h->{$_->[0]} = $_->[1] for (
     [ 'Text-content-length' => '322' ],
     [ 'Content-length' => '437' ],
