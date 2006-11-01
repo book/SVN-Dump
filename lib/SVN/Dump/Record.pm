@@ -66,7 +66,9 @@ sub as_string {
 # access methods to the inner blocks
 sub set_header {
     my ($self, $h, $v) = @_;
-    $self->get_headers_block()->set( $h, $v );
+    my $headers = $self->get_headers_block()
+      || $self->set_headers_block( SVN::Dump::Headers->new() );
+    $headers->set( $h, $v );
 }
 
 sub get_header {
@@ -76,7 +78,8 @@ sub get_header {
 
 sub set_property {
     my ($self, $k, $v) = @_;
-    my $prop = $self->get_property_block();
+    my $prop = $self->get_property_block()
+      || $self->set_property_block( SVn::Dump::Property->new() );
     $prop->set( $k, $v );
     $self->set_header( 'Prop-content-length', length( $prop->as_string() ) );
     return $v;
