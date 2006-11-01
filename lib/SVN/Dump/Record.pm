@@ -3,6 +3,10 @@ package SVN::Dump::Record;
 use strict;
 use warnings;
 
+use SVN::Dump::Headers;
+use SVN::Dump::Property;
+use SVN::Dump::Text;
+
 my $NL = "\012";
 
 sub new {
@@ -33,13 +37,13 @@ sub has_prop_or_text {
 }
 
 # length methods
-sub get_property_length {
+sub property_length {
     my ($self) = @_;
     my $prop = $self->get_property_block();
     return defined $prop ? length( $prop->as_string() ) : 0;
 }
 
-sub get_text_length {
+sub text_length {
     my ($self) = @_;
     my $text = $self->get_text_block();
     return defined $text ? length($text) : 0;
@@ -92,11 +96,11 @@ sub get_header {
 sub set_property {
     my ( $self, $k, $v ) = @_;
     my $prop = $self->get_property_block()
-      || $self->set_property_block( SVn::Dump::Property->new() );
+      || $self->set_property_block( SVN::Dump::Property->new() );
     $prop->set( $k, $v );
     my $l = length( $prop->as_string() );
     $self->set_header( 'Prop-content-length', $l );
-    $self->set_header( 'Content-length' => $l + $self->get_text_length() );
+    $self->set_header( 'Content-length' => $l + $self->text_length() );
     return $v;
 }
 
@@ -113,7 +117,7 @@ sub set_text {
     $text_block->set( $t );
     $self->set_header( 'Text-content-length' => length( $t ) );
     $self->set_header(
-        'Content-length' => length($t) + $self->get_property_length() );
+        'Content-length' => length($t) + $self->property_length() );
 }
 
 sub get_text { $_[0]->get_text_block()->get(); }
@@ -263,6 +267,14 @@ Return a boolean value indicating if the record has only a property block
 
 Return a boolean value indicating if the record has a property block
 or a text block.
+
+=item property_length()
+
+Return the length of the property block.
+
+=item text_length()
+
+Return the length of the text block.
 
 =back
 
