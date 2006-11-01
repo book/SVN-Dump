@@ -6,6 +6,7 @@ CVS/.*
 \.tgz$
 \.tar\.gz$
 \.SKIP$
+\.tmp$
 ^mess/
 ^tmp/
 ^blib/
