@@ -267,6 +267,10 @@ directly access the C<SVN::Dump::Headers>, C<SVN::Dump::Property> and
 C<SVN::Dump::Text> components of a C<SVN::Dump::Record> object, but use
 the appropriate C<set_...()> and C<get_...()> methods of the record object.
 
+These methods compute the appropriate modifications of the header values,
+so that the C<as_string()> method outputs the correct information after
+any modification of the record.
+
 =head1 SEE ALSO
 
 C<SVN::Dump::Headers>, C<SVN::Dump::Property>, C<SVN::Dump::Text>.
