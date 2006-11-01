@@ -142,13 +142,18 @@ C<SVN::Dump> provides the following methods:
 
 =over 4
 
-=item new()
+=item new( \%args )
 
 Return a new C<SVN::Dump> object.
+
+The argument list is a hash reference.
+The only recognised parameter at this time is C<file>,
+which points to a filename (as usual, C<-> means C<STDIN>).
 
 =item next_record()
 
 Return the next record read from the dump.
+This is a C<SVN::Dump::Record> object.
 
 =item version()
 
