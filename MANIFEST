@@ -1,6 +1,7 @@
 Build.PL
 Changes
 eg/svndump_identity.pl
+eg/svndump_replace_author.pl
 eg/svndump_stats.pl
 lib/SVN/Dump.pm
 lib/SVN/Dump/Headers.pm
