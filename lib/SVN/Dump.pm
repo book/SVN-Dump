@@ -64,6 +64,9 @@ SVN::Dump - A Perl interface to Subversion dumps
 
 =head1 SYNOPSIS
 
+    #!/usr/bin/perl
+    use strict;
+    use warnings;
     use SVN::Dump;
     
     my $file = shift;
@@ -71,17 +74,21 @@ SVN::Dump - A Perl interface to Subversion dumps
     
     # compute some stats
     my %type;
+    my %kind;
     while ( my $record = $dump->next_record() ) {
         $type{ $record->type() }++;
+        $kind{ $record->get_headers()->{'Node-action'} }++
+            if $record->type() eq 'node';
     }
     
     # print the results
-    print "Dump $file statistics:\n",
+    print "Statistics for dump $file:\n",
           "  version:   ", $dump->version(), "\n",
           "  uuid:      ", $dump->uuid(), "\n",
           "  revisions: ", $type{revision}, "\n",
           "  nodes:     ", $type{node}, "\n";
-
+    print map { sprintf "  - %-7s: %d\n", $_, $kind{$_} } sort keys %kind;
+    
 =head1 DESCRIPTION
 
 B<This module is an alpha release. The interfaces will probably change
@@ -90,7 +97,26 @@ in the future, as I slowly learn my way inside the SVN dump format.>
 An C<SVN::Dump> object represents a Subversion dump.
 
 This module follow the semantics used in the reference document
-(the file F<notes/fs_dumprestore.txt> in the Subversion source tree).
+(the file F<notes/fs_dumprestore.txt> in the Subversion source tree):
+
+=over 4
+
+=item *
+
+A dump is a collection of records (C<SVN::Dump::Record> objects).
+
+=item *
+
+A record is composed of a set of headers (a C<SVN::Dump::Headers> object),
+a set of properties (a C<SVN::Dump::Property> object) and an optional
+bloc of text (a C<SVN::Dump::Text> object).
+
+=item *
+
+Some special records (C<delete> records with a C<Node-kind> header)
+recursively contain included records.
+
+=back
 
 Each class has a C<as_string()> method that prints its content
 in the dump format.
@@ -103,8 +129,8 @@ a dump:
     my $dump = SVN::Dump->new( 'mydump.svn' );
     print $dump->as_string(); # only print the dump header
 
-    while( $rev = $dump->next_record() ) {
-        print $rev->as_string();
+    while( $rec = $dump->next_record() ) {
+        print $rec->as_string();
     }
 
 After the operation, the resulting dump should be identical to the
@@ -141,7 +167,7 @@ Return a string representation of the dump specific blocks
 
 =head1 SEE ALSO
 
-C<SVN::Dump::Reader>.
+C<SVN::Dump::Reader>, C<SVN::Dump::Record>.
 
 =head1 COPYRIGHT & LICENSE
 
