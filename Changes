@@ -2,7 +2,7 @@ Revision history for SVN-Dump
 
 0.02
 
-        *** WARNING: INCOMPATIBLES CHANGES WITH VERSION 0.01 API ***
+        *** WARNING: INCOMPATIBLES API CHANGES FROM VERSION 0.01 ***
 
         [ENHANCEMENTS]
         The following changes should make record manipulation more
@@ -16,11 +16,11 @@ Revision history for SVN-Dump
           set_header()   / get_header(),
           set_property() / get_property(),
           set_text()     / get_text().
-        - new helper methods: get_property_length() and get_text_length()
+        - new helper methods: property_length() and text_length()
         [EXAMPLES]
         - eg/svndump_replace_author.pl - replace an author by another in a dump
 
-        *** WARNING: INCOMPATIBLES CHANGES WITH VERSION 0.01 API ***
+        *** WARNING: INCOMPATIBLES API CHANGES FROM VERSION 0.01 ***
 
 0.01 Wed Oct 18 18:25:31 CEST 2006
         [FEATURES]
