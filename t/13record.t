@@ -5,7 +5,7 @@ use t::Utils;
 
 use SVN::Dump::Record;
 
-plan tests => 25;
+plan tests => 26;
 
 # the record object
 my $rec = SVN::Dump::Record->new();
@@ -60,6 +60,10 @@ esse reiciendis laboriosam facere voluptas repellendus mollitia hic ipsam
 aliquid illum qui numquam amet quisquam provident lorem similique minus
 sapiente exercitation cupiditate nostrum
 EOT
+
+# set some text
+$rec->set_text( 'zlonk bam kapow' );
+is( $rec->text_length(), 15, 'Text-length == 15' );
 
 # add some text
 $rec->set_text( $t );
