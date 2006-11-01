@@ -35,14 +35,14 @@ sub read_record {
 
     # first get the headers
     my $headers = $fh->read_header_block();
-    $record->set_headers( $headers );
+    $record->set_headers_block( $headers );
     
     # get the property block
-    $record->set_property( $fh->read_property_block() )
+    $record->set_property_block( $fh->read_property_block() )
         if exists $headers->{'Prop-content-length'};
 
     # get the text block
-    $record->set_text(
+    $record->set_text_block(
         $fh->read_text_block( $headers->{'Text-content-length'} ) )
         if exists $headers->{'Text-content-length'};
 
@@ -59,7 +59,7 @@ sub read_record {
         && exists $headers->{'Node-kind'} )
     {
         my $included = $fh->read_record();
-        $record->set_included( $included );
+        $record->set_included_record( $included );
         <$fh>; # chop the empty line that follows
     }
 
