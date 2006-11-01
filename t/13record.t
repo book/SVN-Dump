@@ -5,7 +5,7 @@ use t::Utils;
 
 use SVN::Dump::Record;
 
-plan tests => 23;
+plan tests => 25;
 
 # the record object
 my $rec = SVN::Dump::Record->new();
@@ -27,6 +27,7 @@ ok( ! $rec->has_prop(), 'Record has no property block' );
 ok( ! $rec->has_text(), 'Record has no text block' );
 is( $rec->property_length(), 0, 'Prop-length == 0' );
 is( $rec->text_length(), 0, 'Text-length == 0' );
+is( $rec->get_text(), undef, 'No text block' );
 
 # create a property block
 my @props = (
@@ -70,6 +71,7 @@ is( $rec->get_header( $_->[0] ), $_->[1], "$_->[0] header" ) for (
 );
 
 # check the text is available
+is( $rec->text_length(), length($t), "Text-length = @{[length($t)]}" );
 is( $rec->get_text(), $t, 'Text block' );
 
 ok( $rec->has_prop(), 'Record has a property block' );
