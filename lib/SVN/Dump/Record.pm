@@ -58,11 +58,11 @@ sub as_string {
 
     # the properties
     $string .= $self->get_property_block()->as_string()
-        if exists $headers_block->{'Prop-content-length'};
+        if $self->has_prop();
 
     # the text
     $string .= $self->get_text_block()->as_string()
-        if exists $headers_block->{'Text-content-length'};
+        if $self->has_text();
 
     # is there an included record?
     if( my $included = $self->get_included_record() ) {
