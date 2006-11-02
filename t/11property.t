@@ -33,11 +33,12 @@ owww
 PROPS-END
 END_OF_PROPERTY
 
-plan tests => 13 + 2 * @tests;
+plan tests => 14 + 2 * @tests;
 
 # create a new empty property block
 my $p = SVN::Dump::Property->new();
 isa_ok( $p, 'SVN::Dump::Property' );
+is( $p->as_string(), "PROPS-END\012", 'empty property block' );
 
 # try setting some values
 for my $kv (@tests) {
