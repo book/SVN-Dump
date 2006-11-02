@@ -76,6 +76,11 @@ sub get {
     return $self->{$h};
 }
 
+sub keys {
+    my ($self) = @_;
+    return grep { exists $self->{$_} } @{ $headers{$self->type()} };
+}
+
 1;
 
 __END__
@@ -108,6 +113,10 @@ Set the C<$h> header to the value C<$v>.
 =item get($h)
 
 Get the value of header C<$h>.
+
+=item keys()
+
+Return the list of headers, in canonical order.
 
 =item as_string()
 
