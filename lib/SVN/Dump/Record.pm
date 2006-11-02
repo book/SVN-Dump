@@ -11,7 +11,9 @@ my $NL = "\012";
 
 sub new {
     my ($class, @args) = @_;
-    return bless {}, $class
+    return bless {
+        property_block => SVN::Dump::Property->new(), # empty property block
+    }, $class
 }
 
 for my $attr (qw( headers_block property_block text_block included_record )) {
