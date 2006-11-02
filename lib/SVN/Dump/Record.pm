@@ -212,7 +212,7 @@ property block.
 
 =item set_text_block( $text )
 
-=item get_text()
+=item get_text_block()
 
 Get or set the C<SVN::Dump::Text> object that represents the record
 text block.
