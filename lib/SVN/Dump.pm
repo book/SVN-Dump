@@ -43,13 +43,13 @@ RECORD: {
 sub version {
     my ($self) = @_;
     return $self->{format}
-        ? $self->{format}->get_headers()->{'SVN-fs-dump-format-version'}
+        ? $self->{format}->get_header('SVN-fs-dump-format-version')
         : '';
 }
 
 sub uuid {
     my ($self) = @_;
-    return $self->{uuid} ? $self->{uuid}->get_headers()->{UUID} : '';
+    return $self->{uuid} ? $self->{uuid}->get_header('UUID') : '';
 }
 
 sub as_string {
