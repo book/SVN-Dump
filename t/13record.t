@@ -23,9 +23,9 @@ $rec->set_header( @$_ ) for (
 
 # give the record some headers
 is( $rec->type(), 'node', 'Type given by the headers' );
-ok( ! $rec->has_prop(), 'Record has no property block' );
+ok( $rec->has_prop(), 'Record always has a property block' );
+is( $rec->property_length(), 10, 'Prop-length == 10' );
 ok( ! $rec->has_text(), 'Record has no text block' );
-is( $rec->property_length(), 0, 'Prop-length == 0' );
 is( $rec->text_length(), 0, 'Text-length == 0' );
 is( $rec->get_text(), undef, 'No text block' );
 
