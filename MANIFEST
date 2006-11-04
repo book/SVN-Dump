@@ -1,6 +1,7 @@
 Build.PL
 Changes
 eg/svndump_identity.pl
+eg/svndump_replace_author.pl
 eg/svndump_stats.pl
 lib/SVN/Dump.pm
 lib/SVN/Dump/Headers.pm
@@ -18,9 +19,11 @@ t/10headers.t
 t/11property.t
 t/12text.t
 t/13record.t
+t/15dump.t
 t/20headers.t
 t/21property.t
 t/23record.t
+t/24reader.t
 t/25dump.t
 t/29fail.t
 t/dump/fail/h_blank.svn

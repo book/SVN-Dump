@@ -3,6 +3,10 @@ package SVN::Dump::Record;
 use strict;
 use warnings;
 
+use SVN::Dump::Headers;
+use SVN::Dump::Property;
+use SVN::Dump::Text;
+
 my $NL = "\012";
 
 sub new {
@@ -10,7 +14,7 @@ sub new {
     return bless {}, $class
 }
 
-for my $attr (qw( headers property text included )) {
+for my $attr (qw( headers_block property_block text_block included_record )) {
     no strict 'refs';
     *{"set_$attr"} = sub { $_[0]->{$attr} = $_[1]; };
     *{"get_$attr"} = sub { $_[0]->{$attr} };
@@ -18,37 +22,50 @@ for my $attr (qw( headers property text included )) {
 
 sub type {
     my ($self) = @_;
-    return $self->{headers} ? $self->{headers}->type() : '';
+    return $self->{headers_block} ? $self->{headers_block}->type() : '';
 }
 
-sub has_text { return exists $_[0]->{headers}{'Text-content-length'} }
-sub has_prop { return exists $_[0]->{headers}{'Prop-content-length'} }
+sub has_text { return defined $_[0]->get_text_block(); }
+sub has_prop { return defined $_[0]->get_property_block(); }
 sub has_prop_only {
-    return exists $_[0]->{headers}{'Prop-content-length'}
-        && !exists $_[0]->{headers}{'Text-content-length'};
+    return defined $_[0]->get_property_block()
+       && !defined $_[0]->get_text_block();
 }
 sub has_prop_or_text {
-    return exists $_[0]->{headers}{'Prop-content-length'}
-        || exists $_[0]->{headers}{'Text-content-length'};
+    return defined $_[0]->get_property_block()
+        || defined $_[0]->get_text_block();
+}
+
+# length methods
+sub property_length {
+    my ($self) = @_;
+    my $prop = $self->get_property_block();
+    return defined $prop ? length( $prop->as_string() ) : 0;
+}
+
+sub text_length {
+    my ($self) = @_;
+    my $text = $self->get_text();
+    return defined $text ? length($text) : 0;
 }
 
 sub as_string {
     my ($self) = @_;
-    my $headers = $self->get_headers();
+    my $headers_block = $self->get_headers_block();
 
-    # the headers
-    my $string = $headers->as_string();
+    # the headers block
+    my $string = $headers_block->as_string();
 
     # the properties
-    $string .= $self->get_property()->as_string()
-        if exists $headers->{'Prop-content-length'};
+    $string .= $self->get_property_block()->as_string()
+        if $self->has_prop();
 
     # the text
-    $string .= $self->get_text()->as_string()
-        if exists $headers->{'Text-content-length'};
+    $string .= $self->get_text_block()->as_string()
+        if $self->has_text();
 
     # is there an included record?
-    if( my $included = $self->get_included() ) {
+    if( my $included = $self->get_included_record() ) {
         $string .= $included->as_string() . $NL;
     }
 
@@ -63,13 +80,64 @@ sub as_string {
     return $string;
 }
 
+# access methods to the inner blocks
+sub set_header {
+    my ($self, $h, $v) = @_;
+    my $headers = $self->get_headers_block()
+      || $self->set_headers_block( SVN::Dump::Headers->new() );
+    $headers->set( $h, $v );
+}
+
+sub get_header {
+    my ($self, $h) = @_;
+    return $self->get_headers_block()->get($h);
+}
+
+sub set_property {
+    my ( $self, $k, $v ) = @_;
+    my $prop = $self->get_property_block()
+      || $self->set_property_block( SVN::Dump::Property->new() );
+    $prop->set( $k, $v );
+    my $l = length( $prop->as_string() );
+    $self->set_header( 'Prop-content-length', $l );
+    $self->set_header( 'Content-length' => $l + $self->text_length() );
+    return $v;
+}
+
+sub get_property {
+    my ($self, $k) = @_;
+    return $self->get_property_block()->get($k);
+}
+
+sub set_text {
+    my ($self, $t) = @_;
+    my $text_block = $self->get_text_block()
+      || $self->set_text_block( SVN::Dump::Text->new() );
+
+    $text_block->set( $t );
+    $self->set_header( 'Text-content-length' => length( $t ) );
+    $self->set_header(
+        'Content-length' => length($t) + $self->property_length() );
+}
+
+sub get_text {
+    my ($self) = @_;
+    my $text_block = $self->get_text_block();
+    return defined $text_block ? $text_block->get() : undef;
+}
+
 1;
 
 __END__
 
 =head1 NAME
 
+SVN::Dump::Record - A SVN dump record
+
 =head1 SYNOPSIS
+
+    # SVN::Dump::Record objects are returns by the next_record()
+    # method of SVN::Dump
 
 =head1 DESCRIPTION
 
@@ -77,7 +145,9 @@ An C<SVN::Dump::Record> object represents a Subversion dump record.
 
 =head1 METHODS
 
-C<SVN::Dump> provides the following methods:
+C<SVN::Dump> provides the following gourps of methods:
+
+=head2 Record methods
 
 =over 4
 
@@ -91,30 +161,65 @@ Return the record type, as guessed from its headers.
 
 The method dies if the record type cannot be determined.
 
-=item set_headers( $headers )
+=item set_header( $h, $v )
 
-=item get_headers()
+Set the header C<$h> to the value C<$v>.
+
+=item get_header( $h )
+
+Get the value of header C<$h>.
+
+=item set_property( $p, $v )
+
+Set the property C<$p> to the value C<$v>.
+
+=item get_property( $p )
+
+Get the value of property C<$p>.
+
+=item set_text( $t )
+
+Set the value of the text block.
+
+=item get_text()
+
+Get the value of the text block.
+
+=back
+
+=head2 Inner blocks manipulation
+
+A C<SVN::Dump::Record> is composed of several inner blocks of various kinds:
+C<SVN::Dump::Headers>, C<SVN::Dump::Property> and C<SVN::Dump::Text>.
+
+The following methods provide access to these blocks:
+
+=over 4
+
+=item set_headers_block( $headers )
+
+=item get_headers_block()
 
 Get or set the C<SVN::Dump::Headers> object that represents the record
 headers.
 
-=item set_property( $property )
+=item set_property_block( $property )
 
-=item get_property()
+=item get_property_block()
 
 Get or set the C<SVN::Dump::Property> object that represents the record
 property block.
 
-=item set_text( $text )
+=item set_text_block( $text )
 
-=item get_text()
+=item get_text_block()
 
 Get or set the C<SVN::Dump::Text> object that represents the record
 text block.
 
-=item set_included( $record )
+=item set_included_record( $record )
 
-=item get_included()
+=item get_included_record()
 
 Some special record are actually output recursiveley by B<svnadmin dump>.
 The "record in the record" is stored within the parent record, so they
@@ -143,6 +248,12 @@ like this:
 Note that there is a single blank line after the first header block,
 and four after the included one.
 
+=back
+
+=head2 Information methods
+
+=over 4
+
 =item has_prop()
 
 Return a boolean value indicating if the record has a property block.
@@ -161,6 +272,20 @@ Return a boolean value indicating if the record has only a property block
 Return a boolean value indicating if the record has a property block
 or a text block.
 
+=item property_length()
+
+Return the length of the property block.
+
+=item text_length()
+
+Return the length of the text block.
+
+=back
+
+=head2 Output method
+
+=over 4
+
 =item as_string()
 
 Return a string representation of the record.
@@ -170,6 +295,17 @@ was read from the original dump. Which means that if you modified the
 property or text block of a record, the headers will be inconstent.
 
 =back
+
+=head1 ENCAPSULATION
+
+When using C<SVN::Dump> to manipulate a SVN dump, one should not
+directly access the C<SVN::Dump::Headers>, C<SVN::Dump::Property> and
+C<SVN::Dump::Text> components of a C<SVN::Dump::Record> object, but use
+the appropriate C<set_...()> and C<get_...()> methods of the record object.
+
+These methods compute the appropriate modifications of the header values,
+so that the C<as_string()> method outputs the correct information after
+any modification of the record.
 
 =head1 SEE ALSO
 

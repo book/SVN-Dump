@@ -64,6 +64,23 @@ sub type {
     return $type;
 }
 
+sub set {
+    my ($self, $h, $v) = @_;
+
+    # FIXME shall we check that the header value is valid?
+    return $self->{$h} = $v;
+}
+
+sub get {
+    my ($self, $h) = @_;
+    return $self->{$h};
+}
+
+sub keys {
+    my ($self) = @_;
+    return grep { exists $self->{$_} } @{ $headers{$self->type()} };
+}
+
 1;
 
 __END__
@@ -89,6 +106,18 @@ C<SVN::Dump::Headers> provides the following methods:
 
 Create and return a new empty C<SVN::Dump::Headers> object.
 
+=item set($h, $v)
+
+Set the C<$h> header to the value C<$v>.
+
+=item get($h)
+
+Get the value of header C<$h>.
+
+=item keys()
+
+Return the list of headers, in canonical order.
+
 =item as_string()
 
 Return a string that represents the record headers.
@@ -103,6 +132,12 @@ The string is one of C<revision>, C<node>, C<uuid> or C<format>.
 The method dies if it can't determine the record type.
 
 =back
+
+=head1 ENCAPSULATION
+
+When using C<SVN::Dump> to manipulate a SVN dump, one should not directly
+access the C<SVN::Dump::Headers> component of a C<SVN::Dump::Record>, but
+use the C<set_header()> and C<get_header()> methods of the record object.
 
 =head1 SEE ALSO
 
