@@ -4,15 +4,15 @@ use warnings;
 use File::Spec::Functions;
 use SVN::Dump;
 
-plan tests => 5;
+plan tests => 6;
 
 # non-existing dumpfile
 eval { my $dump = SVN::Dump->new( { file => 'krunch' } ); };
 like( $@, qr/^Can't open krunch: /, "new() fails with non-existing file" );
 
 # try an existing one, now
-my $dump = SVN::Dump->new(
-    { file => catfile( qw( t dump full test123-r0.svn) ) } );
+my $dump
+    = SVN::Dump->new( { file => catfile(qw( t dump full test123-r0.svn)) } );
 
 is( $dump->version(), '', 'No dump format version yet' );
 $dump->next_record();
@@ -21,4 +21,9 @@ is( $dump->version(), '2', 'Read dump format version' );
 is( $dump->uuid(), '', 'No UUID yet' );
 $dump->next_record();
 is( $dump->uuid(), '2785358f-ed1c-0410-8d81-93a2a39f1216', 'Read UUID' );
+
+my $as_string = join "\012", 'SVN-fs-dump-format-version: 2',
+    "\012UUID: 2785358f-ed1c-0410-8d81-93a2a39f1216", "\012";
+
+is( $dump->as_string(), $as_string, 'as_string()' );
 
