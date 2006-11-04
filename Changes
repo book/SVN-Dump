@@ -1,11 +1,11 @@
 Revision history for SVN-Dump
 
-0.02
+0.02 Sat Nov  4 01:34:08 CET 2006
 
         *** WARNING: INCOMPATIBLES API CHANGES FROM VERSION 0.01 ***
 
         [ENHANCEMENTS]
-        - SVN::Dump->new() now also accepts a filehandle
+        - SVN::Dump->new() now also accepts a filehandle (fh)
           (thanks to clkao, RT ticket #22429)
         - Renamed the record manipulation methods of SVN::Dump::Record to
           set_headers_block()  / get_headers_block(),
@@ -17,6 +17,8 @@ Revision history for SVN-Dump
           set_property() / get_property(),
           set_text()     / get_text().
         - new helper methods: property_length() and text_length()
+        [TESTS]
+        - 100% coverage for SVN::Dump too
         [EXAMPLES]
         - eg/svndump_replace_author.pl - replace an author by another in a dump
 
