@@ -53,7 +53,7 @@ sub uuid {
 }
 
 sub as_string {
-    return join '', $_[0]->{$_}->as_string() for (qw( format uuid ));
+    return join '', map { $_[0]->{$_}->as_string() } qw( format uuid );
 }
 
 __END__
