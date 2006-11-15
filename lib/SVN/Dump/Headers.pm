@@ -68,11 +68,13 @@ sub set {
     my ($self, $h, $v) = @_;
 
     # FIXME shall we check that the header value is valid?
+    $h =~ tr/_/-/; # allow _ for - simplification
     return $self->{$h} = $v;
 }
 
 sub get {
     my ($self, $h) = @_;
+    $h =~ tr/_/-/; # allow _ for - simplification
     return $self->{$h};
 }
 
@@ -110,9 +112,13 @@ Create and return a new empty C<SVN::Dump::Headers> object.
 
 Set the C<$h> header to the value C<$v>.
 
+C<_> can be used as a replacement for C<-> in the header name.
+
 =item get($h)
 
 Get the value of header C<$h>.
+
+C<_> can be used as a replacement for C<-> in the header name.
 
 =item keys()
 

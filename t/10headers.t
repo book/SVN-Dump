@@ -11,7 +11,7 @@ my @valid = (
     [ 'Content-length'      => 125 ],
 );
 
-plan tests => 8 + 2 * @valid;
+plan tests => 11 + 2 * @valid;
 
 my $h = SVN::Dump::Headers->new();
 
@@ -27,6 +27,9 @@ like( $@, qr/^Unable to determine the record type/, 'No type yet (keys)' );
 is( $h->set( Zlonk => 'Kapow' ), 'Kapow', 'set() returns the new value' );
 is( $h->get('Zlonk'), 'Kapow', 'get() method returns the value' );
 is( $h->get('Vronk'), undef, 'get() returns undef for non-existent header' );
+is( $h->set( Bam_Kapow => 'Zowie' ), 'Zowie', 'set() returns the new value' );
+is( $h->get( 'Bam-Kapow' ), 'Zowie', '_ and - work the same' );
+is( $h->get( 'Bam_Kapow' ), 'Zowie', '_ and - work the same' );
 
 eval { $h->keys() };
 like( $@, qr/^Unable to determine the record type/, 'No type yet (keys)' );
