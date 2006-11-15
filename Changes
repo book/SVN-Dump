@@ -3,6 +3,7 @@ Revision history for SVN-Dump
 0.03
         [ENHANCEMENTS]
         - Allow the use of '_' for '-' for header names in SVN::Dump::Headers
+        - SVN::Dump::new() now accepts parameters 'version' and 'uuid'
 
 0.02 Sat Nov  4 01:34:08 CET 2006
 
