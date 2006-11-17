@@ -180,11 +180,15 @@ This is a C<SVN::Dump::Record> object.
 
 =item version()
 
-Return the dump format version, if the version record has already been read.
+=item format()
+
+Return the dump format version, if the version record has already been read,
+or if it was given in the constructor.
 
 =item uuid()
 
-Return the dump UUID, if there is an UUID record and it has been read.
+Return the dump UUID, if there is an UUID record and it has been read,
+or if it was given in the constructor.
 
 =item as_string()
 
