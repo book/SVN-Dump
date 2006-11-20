@@ -5,7 +5,7 @@ use t::Utils;
 
 use SVN::Dump::Record;
 
-plan tests => 26;
+plan tests => 29;
 
 # the record object
 my $rec = SVN::Dump::Record->new();
@@ -82,4 +82,13 @@ ok( $rec->has_prop(), 'Record has a property block' );
 ok( $rec->has_text(), 'Record has a text block' );
 ok( ! $rec->has_prop_only(), 'Record has not only a property block' );
 ok( $rec->has_prop_or_text(), 'Record has a property or text block' );
+ 
+# check that delete_property() behaves like the builtin delete()
+$rec->set_property(@$_) for ( [ foo => 11 ], [ bar => 22 ], [ baz => 33 ] );
+my $scalar = $rec->delete_property('foo');
+is( $scalar, 11, '$scalar is 11 (perldoc -f delete)' );
+$scalar = $rec->delete_property(qw(foo bar));
+is( $scalar, 22, '$scalar is 22 (perldoc -f delete)' );
+my @array = $rec->delete_property(qw(foo bar baz));
+is_deeply( \@array, [ undef, undef, 33 ], '@array is (undef, undef,33)' );
 
