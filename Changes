@@ -7,6 +7,8 @@ Revision history for SVN-Dump
         - SVN::Dump::format() is an alias for SVN::Dump::version()
         - SVN::Dump::Record::update_headers() will recompute the record
           headers after a text or properties modification
+        - SVN::Dump::Property::delete() can remove property keys
+        - SVN::Dump::Record::delete_property() does the same
 
 0.02 Sat Nov  4 01:34:08 CET 2006
 
