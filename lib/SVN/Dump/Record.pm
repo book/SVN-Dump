@@ -118,6 +118,15 @@ sub get_property {
     return $self->get_property_block()->get($k);
 }
 
+sub delete_property {
+    my ( $self, @keys ) = @_;
+    my $prop = $self->get_property_block()
+        || $self->set_property_block( SVN::Dump::Property->new() );
+    my @result = $prop->delete(@keys);
+    $self->update_headers();
+    return wantarray ? @result : pop @result; # behave like delete()
+}
+
 sub set_text {
     my ($self, $t) = @_;
     my $text_block = $self->get_text_block()
@@ -185,6 +194,10 @@ Set the property C<$p> to the value C<$v>.
 
 Get the value of property C<$p>.
 
+=item delete_property( @k )
+
+Delete the
+
 =item set_text( $t )
 
 Set the value of the text block.
@@ -217,6 +230,10 @@ headers.
 
 Get or set the C<SVN::Dump::Property> object that represents the record
 property block.
+
+=item delete_property( @keys )
+
+Delete the given properties. Behave like the builtin C<delete()>.
 
 =item set_text_block( $text )
 
@@ -256,6 +273,13 @@ like this:
 Note that there is a single blank line after the first header block,
 and four after the included one.
 
+=item update_headers()
+
+Update the various C<...-length> headers. Used internally.
+
+B<You must call this method if you update the inner property or text
+blocks directly, or the results of C<as_string()> will be inconsistent.>
+
 =back
 
 =head2 Information methods
@@ -287,13 +311,6 @@ Return the length of the property block.
 =item text_length()
 
 Return the length of the text block.
-
-=item update_headers()
-
-Update the various C<...-length> headers. Used internally.
-
-B<You must call this method if you update the inner property or text
-blocks directly, or the results of C<as_string()> will be inconsistent.>
 
 =back
 
