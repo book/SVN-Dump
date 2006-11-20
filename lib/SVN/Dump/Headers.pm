@@ -3,10 +3,19 @@ package SVN::Dump::Headers;
 use strict;
 use warnings;
 use Carp;
+use Scalar::Util qw( reftype );
 
 my $NL = "\012";
 
-sub new { return bless {}, shift; }
+sub new {
+    my ( $class, $headers ) = @_;
+    croak 'First parameter must be a HASH reference'
+        if defined $headers
+        && !( ref $headers && reftype $headers eq 'HASH' );
+    my $self = bless {}, $class;
+    $self->set( $_ => $headers->{$_} ) for keys %{ $headers || {} };
+    return $self;
+}
 
 my %headers = (
     revision => [
@@ -104,9 +113,12 @@ C<SVN::Dump::Headers> provides the following methods:
 
 =over 4
 
-=item new()
+=item new( [$hashref] )
 
 Create and return a new empty C<SVN::Dump::Headers> object.
+
+If C<$hashref> is given (it can be a blessed hash reference), the
+keys from the hash are used to initialise the headers.
 
 =item set($h, $v)
 
