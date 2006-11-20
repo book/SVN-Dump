@@ -80,6 +80,17 @@ sub as_string {
     return $string;
 }
 
+sub update_headers {
+    my ($self)  = @_;
+    my $proplen = $self->property_length();
+    my $textlen = $self->text_length();
+
+    $self->set_header( 'Text-content-length' => $textlen )
+        if defined $self->get_text_block();
+    $self->set_header( 'Prop-content-length', $proplen );
+    $self->set_header( 'Content-length' => $proplen + $textlen );
+}
+
 # access methods to the inner blocks
 sub set_header {
     my ($self, $h, $v) = @_;
@@ -98,9 +109,7 @@ sub set_property {
     my $prop = $self->get_property_block()
       || $self->set_property_block( SVN::Dump::Property->new() );
     $prop->set( $k, $v );
-    my $l = length( $prop->as_string() );
-    $self->set_header( 'Prop-content-length', $l );
-    $self->set_header( 'Content-length' => $l + $self->text_length() );
+    $self->update_headers();
     return $v;
 }
 
@@ -115,9 +124,8 @@ sub set_text {
       || $self->set_text_block( SVN::Dump::Text->new() );
 
     $text_block->set( $t );
-    $self->set_header( 'Text-content-length' => length( $t ) );
-    $self->set_header(
-        'Content-length' => length($t) + $self->property_length() );
+    $self->update_headers();
+    return $t;
 }
 
 sub get_text {
@@ -279,6 +287,13 @@ Return the length of the property block.
 =item text_length()
 
 Return the length of the text block.
+
+=item update_headers()
+
+Update the various C<...-length> headers. Used internally.
+
+B<You must call this method if you update the inner property or text
+blocks directly, or the results of C<as_string()> will be inconsistent.>
 
 =back
 
