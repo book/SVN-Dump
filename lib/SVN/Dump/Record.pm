@@ -80,6 +80,17 @@ sub as_string {
     return $string;
 }
 
+sub update_headers {
+    my ($self)  = @_;
+    my $proplen = $self->property_length();
+    my $textlen = $self->text_length();
+
+    $self->set_header( 'Text-content-length' => $textlen )
+        if defined $self->get_text_block();
+    $self->set_header( 'Prop-content-length', $proplen );
+    $self->set_header( 'Content-length' => $proplen + $textlen );
+}
+
 # access methods to the inner blocks
 sub set_header {
     my ($self, $h, $v) = @_;
@@ -98,9 +109,7 @@ sub set_property {
     my $prop = $self->get_property_block()
       || $self->set_property_block( SVN::Dump::Property->new() );
     $prop->set( $k, $v );
-    my $l = length( $prop->as_string() );
-    $self->set_header( 'Prop-content-length', $l );
-    $self->set_header( 'Content-length' => $l + $self->text_length() );
+    $self->update_headers();
     return $v;
 }
 
@@ -109,15 +118,23 @@ sub get_property {
     return $self->get_property_block()->get($k);
 }
 
+sub delete_property {
+    my ( $self, @keys ) = @_;
+    my $prop = $self->get_property_block()
+        || $self->set_property_block( SVN::Dump::Property->new() );
+    my @result = $prop->delete(@keys);
+    $self->update_headers();
+    return wantarray ? @result : pop @result; # behave like delete()
+}
+
 sub set_text {
     my ($self, $t) = @_;
     my $text_block = $self->get_text_block()
       || $self->set_text_block( SVN::Dump::Text->new() );
 
     $text_block->set( $t );
-    $self->set_header( 'Text-content-length' => length( $t ) );
-    $self->set_header(
-        'Content-length' => length($t) + $self->property_length() );
+    $self->update_headers();
+    return $t;
 }
 
 sub get_text {
@@ -177,6 +194,10 @@ Set the property C<$p> to the value C<$v>.
 
 Get the value of property C<$p>.
 
+=item delete_property( @k )
+
+Delete the
+
 =item set_text( $t )
 
 Set the value of the text block.
@@ -209,6 +230,10 @@ headers.
 
 Get or set the C<SVN::Dump::Property> object that represents the record
 property block.
+
+=item delete_property( @keys )
+
+Delete the given properties. Behave like the builtin C<delete()>.
 
 =item set_text_block( $text )
 
@@ -247,6 +272,13 @@ like this:
 
 Note that there is a single blank line after the first header block,
 and four after the included one.
+
+=item update_headers()
+
+Update the various C<...-length> headers. Used internally.
+
+B<You must call this method if you update the inner property or text
+blocks directly, or the results of C<as_string()> will be inconsistent.>
 
 =back
 

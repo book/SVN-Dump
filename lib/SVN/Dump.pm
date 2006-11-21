@@ -6,18 +6,34 @@ use Carp;
 
 use SVN::Dump::Reader;
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 sub new {
     my ( $class, $args ) = @_;
-
-    # create the Reader object now
     my $self = bless {}, $class;
-    my $fh = $args->{fh};
-    if ( !$fh ) {
-        open $fh, $args->{file} or croak "Can't open $args->{file}: $!";
+
+    # FIXME - croak() if incompatible options
+
+    # we have a reader
+    if ( exists $args->{fh} || exists $args->{file} ) {
+        my $fh = $args->{fh};
+        if ( !$fh ) {
+            open $fh, $args->{file} or croak "Can't open $args->{file}: $!";
+        }
+        $self->{reader} = SVN::Dump::Reader->new($fh);
     }
-    $self->{reader} = SVN::Dump::Reader->new($fh);
+    # we don't have a reader
+    else {
+        if( exists $args->{version} ) {
+            $self->{format} = SVN::Dump::Record->new();
+            $self->{format}->set_header(
+                'SVN-fs-dump-format-version' => $args->{version} );
+        }
+        if( exists $args->{uuid} ) {
+            $self->{uuid} = SVN::Dump::Record->new();
+            $self->{uuid}->set_header( 'UUID' => $args->{uuid} );
+        }
+    }
 
     return $self;
 }
@@ -46,6 +62,7 @@ sub version {
         ? $self->{format}->get_header('SVN-fs-dump-format-version')
         : '';
 }
+*format = \&version;
 
 sub uuid {
     my ($self) = @_;
@@ -147,8 +164,14 @@ C<SVN::Dump> provides the following methods:
 Return a new C<SVN::Dump> object.
 
 The argument list is a hash reference.
-The only recognised parameter at this time is C<file>,
-which points to a filename (as usual, C<-> means C<STDIN>).
+
+If the C<SVN::Dump> object will read information from a file,
+the arguments C<file> is used (as usal, C<-> means C<STDIN>);
+if the dump is read from a filehandle, C<fh> is used.
+
+If the C<SVN::Dump> isn't used to read information, the parameters
+C<version> and C<uuid> can be used to initialise the values
+of the C<SVN-fs-dump-format-version> and C<UUID> headers.
 
 =item next_record()
 
@@ -157,11 +180,15 @@ This is a C<SVN::Dump::Record> object.
 
 =item version()
 
-Return the dump format version, if the version record has already been read.
+=item format()
+
+Return the dump format version, if the version record has already been read,
+or if it was given in the constructor.
 
 =item uuid()
 
-Return the dump UUID, if there is an UUID record and it has been read.
+Return the dump UUID, if there is an UUID record and it has been read,
+or if it was given in the constructor.
 
 =item as_string()
 

@@ -23,6 +23,13 @@ sub set {
 sub get    { return $_[0]{hash}{ $_[1] }; }
 sub keys   { return @{ $_[0]{keys} }; }
 sub values { return @{ $_[0]{hash} }{ @{ $_[0]{keys} } }; }
+sub delete {
+    my ( $self, @keys ) = @_;
+    return if !@keys;
+    my $re = qr/^@{[join '|', map { quotemeta } @keys]}$/;
+    $self->{keys} = [ grep { !/$re/ } @{ $self->{keys} } ];
+    delete @{ $self->{hash} }{@keys};
+}
 
 sub as_string {
     my ($self) = @_;
@@ -76,6 +83,10 @@ Set the C<$key> property with value C<$value>.
 =item get( $key )
 
 Get the value of property C<$key>.
+
+=item delete( @keys )
+
+Delete the keys C<@keys>. Behaves like the builtin C<delete()> on a hash.
 
 =item keys()
 

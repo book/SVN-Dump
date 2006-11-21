@@ -11,10 +11,25 @@ my @valid = (
     [ 'Content-length'      => 125 ],
 );
 
-plan tests => 8 + 2 * @valid;
+my %init = (
+   Zlonk => 'Kapow',
+   Bam_Kapow => 'Zowie',
+   'Eee-yow' => 'Glurpp'
+);
+
+plan tests => 14 + 2 * @valid + 2 * keys %init;
+
+# test new()
+for my $args ( 'zlonk', [], ( bless [], 'zlonk' ) ) {
+    eval { my $h = SVN::Dump::Headers->new('zlonk'); };
+    like(
+        $@,
+        qr/^First parameter must be a HASH reference/,
+        'new() expects a hashref'
+    );
+}
 
 my $h = SVN::Dump::Headers->new();
-
 isa_ok( $h, 'SVN::Dump::Headers' );
 
 eval { $h->type() };
@@ -27,6 +42,9 @@ like( $@, qr/^Unable to determine the record type/, 'No type yet (keys)' );
 is( $h->set( Zlonk => 'Kapow' ), 'Kapow', 'set() returns the new value' );
 is( $h->get('Zlonk'), 'Kapow', 'get() method returns the value' );
 is( $h->get('Vronk'), undef, 'get() returns undef for non-existent header' );
+is( $h->set( Bam_Kapow => 'Zowie' ), 'Zowie', 'set() returns the new value' );
+is( $h->get( 'Bam-Kapow' ), 'Zowie', '_ and - work the same' );
+is( $h->get( 'Bam_Kapow' ), 'Zowie', '_ and - work the same' );
 
 eval { $h->keys() };
 like( $@, qr/^Unable to determine the record type/, 'No type yet (keys)' );
@@ -43,4 +61,10 @@ is_deeply(
     [ map { $_->[0] } @valid ],
     'keys() return the valid keys in order'
 );
+
+# test new() with parameters
+for my $init ( \%init, ( bless { %init }, 'zlonk' ) ) {
+   $h = SVN::Dump::Headers->new( $init );
+   is( $h->get($_), $init{$_}, "$_ value" ) for keys %init;
+}
 
