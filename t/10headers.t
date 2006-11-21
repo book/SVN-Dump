@@ -17,10 +17,10 @@ my %init = (
    'Eee-yow' => 'Glurpp'
 );
 
-plan tests => 13 + 2 * @valid + 2 * keys %init;
+plan tests => 14 + 2 * @valid + 2 * keys %init;
 
 # test new()
-for my $args ( 'zlonk', ( bless [], 'zlonk' ) ) {
+for my $args ( 'zlonk', [], ( bless [], 'zlonk' ) ) {
     eval { my $h = SVN::Dump::Headers->new('zlonk'); };
     like(
         $@,
@@ -63,7 +63,7 @@ is_deeply(
 );
 
 # test new() with parameters
-for my $init ( \%init,( bless { %init }, 'zlonk' ) ) {
+for my $init ( \%init, ( bless { %init }, 'zlonk' ) ) {
    $h = SVN::Dump::Headers->new( $init );
    is( $h->get($_), $init{$_}, "$_ value" ) for keys %init;
 }
