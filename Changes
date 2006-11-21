@@ -9,6 +9,7 @@ Revision history for SVN-Dump
           headers after a text or properties modification
         - SVN::Dump::Property::delete() can remove property keys
         - SVN::Dump::Record::delete_property() does the same
+        - SVN::Dump::Headers::new() can initialise the headers with a hashref
 
 0.02 Sat Nov  4 01:34:08 CET 2006
 
