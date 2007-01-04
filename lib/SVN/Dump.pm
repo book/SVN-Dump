@@ -73,6 +73,8 @@ sub as_string {
     return join '', map { $_[0]->{$_}->as_string() } qw( format uuid );
 }
 
+1;
+
 __END__
 
 =head1 NAME
