@@ -12,4 +12,4 @@ find( sub { push @modules, $File::Find::name if /\.pm$/ }, 'blib/lib' );
 
 plan tests => scalar @modules;
 
-pod_coverage_ok($_) @modules;
+pod_coverage_ok($_) for @modules;
