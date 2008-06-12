@@ -21,7 +21,6 @@ sub new {
     my ($class, $fh) = @_;
     croak 'SVN::Dump::Reader parameter is not a filehandle'
         if !( $fh && ref $fh && ref($fh) eq 'GLOB' );
-    binmode($fh);
     return bless $fh, $class;
 }
 

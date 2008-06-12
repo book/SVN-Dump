@@ -6,7 +6,7 @@ use Carp;
 
 use SVN::Dump::Reader;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 sub new {
     my ( $class, $args ) = @_;
@@ -72,6 +72,8 @@ sub uuid {
 sub as_string {
     return join '', map { $_[0]->{$_}->as_string() } qw( format uuid );
 }
+
+1;
 
 __END__
 

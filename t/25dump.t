@@ -14,7 +14,10 @@ for my $f (@files) {
     my $expected = file_content($f);
     my $dump;
 
+    # test each file twice
     my $fh;
+
+    # once with a filehandle
     if ( $i % 2 ) {
         open $fh, $f or do {
             fail("Failed to open $f: $!") for 1 .. 2;
@@ -23,6 +26,7 @@ for my $f (@files) {
 
         $dump = SVN::Dump->new( { fh => $fh } );
     }
+    # once with a filename
     else {
         $dump = SVN::Dump->new( { file => $f } );
     }
