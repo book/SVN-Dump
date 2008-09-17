@@ -19,6 +19,7 @@ for my $f (@files) {
     my $dump = SVN::Dump::Reader->new($fh);
     my $r    = $dump->read_record();
     is_same_string( $r->as_string(), $expected, "Read $f record" );
-    is( tell($fh), -s $f, "Read all of $f" );
+    $r = $dump->read_record();
+    ok( !$r && tell($fh) == -s $f, "Read all of $f" );
 }
 

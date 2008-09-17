@@ -33,13 +33,10 @@ sub new {
 sub read_record {
     my ($fh) = @_;
 
-    # no more records?
-    return if eof($fh);
-
     my $record = SVN::Dump::Record->new();
 
     # first get the headers
-    my $headers = $fh->read_header_block();
+    my $headers = $fh->read_header_block() or return;
     $record->set_headers_block( $headers );
     
     # get the property block
@@ -86,15 +83,7 @@ sub read_record {
     {
         my $included = $fh->read_record();
         $record->set_included_record( $included );
-        <$fh>; # chop the empty line that follows
     }
-
-    # chop empty line after the record
-    my $type = $headers->type();
-    <$fh> if $type !~ /\A(?:format|uuid)\z/;
-
-    # chop another one after a node with only a prop block
-    <$fh> if $type eq 'node' && $record->has_prop_only();
 
     # uuid and format record only contain headers
     return $record;
@@ -104,15 +93,25 @@ sub read_header_block {
     my ($fh) = @_;
 
     local $/ = $NL;
+
+    # skip empty lines
+    my $line;
+    while(1) {
+        $line = <$fh>;
+        return if !defined $line;
+        chop $line;
+        last unless $line eq '';
+    }
+
     my $headers = SVN::Dump::Headers->new();
     while(1) {
-        my $line = <$fh>;
+        my ($key, $value) = split /: /, $line, 2;
+        $headers->{$key} = $value;
+
+        $line = <$fh>;
         croak _eof() if !defined $line;
         chop $line;
         last if $line eq ''; # stop on empty line
-
-        my ($key, $value) = split /: /, $line, 2;
-        $headers->{$key} = $value;
     }
 
     croak "Empty line found instead of a header block line $."
