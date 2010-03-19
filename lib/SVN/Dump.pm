@@ -96,7 +96,7 @@ SVN::Dump - A Perl interface to Subversion dumps
     my %kind;
     while ( my $record = $dump->next_record() ) {
         $type{ $record->type() }++;
-        $kind{ $record->get_headers()->{'Node-action'} }++
+        $kind{ $record->get_header('Node-action') }++
             if $record->type() eq 'node';
     }
     
