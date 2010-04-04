@@ -38,12 +38,18 @@ sub read_record {
     
     # get the property block
     $record->set_property_block( $fh->read_property_block() )
-        if exists $headers->{'Prop-content-length'};
+        if (
+            exists $headers->{'Prop-content-length'} and
+            $headers->{'Prop-content-length'}
+        );
 
     # get the text block
     $record->set_text_block(
         $fh->read_text_block( $headers->{'Text-content-length'} ) )
-        if exists $headers->{'Text-content-length'};
+        if (
+            exists $headers->{'Text-content-length'} and
+            $headers->{'Text-content-length'}
+        );
 
     # some safety checks
     croak "Inconsistent record size"
