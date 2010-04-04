@@ -21,26 +21,28 @@ sub new {
 my %headers = (
     revision => [
         qw(
-            Revision-number
-            Prop-content-length
             Content-length
+            Prop-content-length
+            Revision-number
             )
 
     ],
     node => [
         qw(
-            Node-path
-            Node-kind
+            Content-length
             Node-action
-            Node-copyfrom-rev
             Node-copyfrom-path
-            Prop-delta
+            Node-copyfrom-rev
+            Node-kind
+            Node-path
             Prop-content-length
-            Text-copy-source-md5
-            Text-delta
+            Prop-delta
             Text-content-length
             Text-content-md5
-            Content-length
+            Text-content-sha1
+            Text-copy-source-md5
+            Text-copy-source-sha1
+            Text-delta
             )
     ],
     uuid   => ['UUID'],
@@ -77,7 +79,12 @@ sub type {
 sub set {
     my ($self, $h, $v) = @_;
 
+    # FIXME validate header name against type (hard because we don't
+    # necessarily know the type at the time set() is called).
+
     # FIXME shall we check that the header value is valid?
+    croak "setting header $h to undefined value" unless defined $v;
+
     $h =~ tr/_/-/; # allow _ for - simplification
     return $self->{$h} = $v;
 }
@@ -85,11 +92,14 @@ sub set {
 sub get {
     my ($self, $h) = @_;
     $h =~ tr/_/-/; # allow _ for - simplification
+    return unless exists $self->{$h}; # prevent autovivification
     return $self->{$h};
 }
 
 sub keys {
     my ($self) = @_;
+
+    # Only returns valid headers for the record type.
     return grep { exists $self->{$_} } @{ $headers{$self->type()} };
 }
 
