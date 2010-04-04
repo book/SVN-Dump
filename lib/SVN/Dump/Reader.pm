@@ -35,6 +35,7 @@ sub read_record {
 
     # first get the headers
     my $headers = $fh->read_header_block();
+    return unless $headers;
     $record->set_headers_block( $headers );
     
     # get the property block
@@ -83,13 +84,28 @@ sub read_record {
 sub read_header_block {
     my ($fh) = @_;
 
+    my $in_headers = 0;
+
     local $/ = $NL;
     my $headers = SVN::Dump::Headers->new();
     while(1) {
         my $line = <$fh>;
-        confess _eof() if !defined $line;
+
+        # EOF is unexpected if we're in headers.  Fine if we're not.
+        unless (defined $line) {
+            confess _eof() if $in_headers;
+            last;
+        }
+
         chop $line;
-        last if $line eq ''; # stop on empty line
+
+        # Empty line ends headers.  Discarded if before headers.
+        if ($line eq '') {
+            next unless $in_headers;
+            last;
+        }
+
+        $in_headers = 1;
 
         my ($key, $value) = split /: /, $line, 2;
         $headers->{$key} = $value;

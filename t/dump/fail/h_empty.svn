@@ -1,2 +1,2 @@
 read_header_block
-^Unexpected EOF line \d+
+^Empty line found instead of a header block line \d+
