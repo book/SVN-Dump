@@ -1,9 +1,10 @@
 package SVN::Dump::Reader;
+# vim: ts=4 sw=4 expandtab
 
 use strict;
 use warnings;
 use IO::Handle;
-use Carp;
+use Carp qw(croak confess);
 
 our @ISA = qw( IO::Handle );
 
@@ -46,7 +47,7 @@ sub read_record {
         if exists $headers->{'Text-content-length'};
 
     # some safety checks
-    croak "Inconsistent record size"
+    confess "Inconsistent record size"
         if ( $headers->{'Prop-content-length'} || 0 )
         + ( $headers->{'Text-content-length'} || 0 )
         != ( $headers->{'Content-length'} || 0 );
@@ -80,7 +81,7 @@ sub read_header_block {
     my $headers = SVN::Dump::Headers->new();
     while(1) {
         my $line = <$fh>;
-        croak _eof() if !defined $line;
+        confess _eof() if !defined $line;
         chop $line;
         last if $line eq ''; # stop on empty line
 
@@ -88,7 +89,7 @@ sub read_header_block {
         $headers->{$key} = $value;
     }
 
-    croak "Empty line found instead of a header block line $."
+    confess "Empty line found instead of a header block line $."
        if ! keys %$headers;
 
     return $headers;
@@ -102,7 +103,7 @@ sub read_property_block {
     my @buffer;
     while(1) {
         my $line = <$fh>;
-        croak _eof() if !defined $line;
+        confess _eof() if !defined $line;
         chop $line;
 
         # read a key/value pair
@@ -112,7 +113,7 @@ sub read_property_block {
             chop $key; # remove the last $NL
 
             $line = <$fh>;
-            croak _eof() if !defined $line;
+            confess _eof() if !defined $line;
             chop $line;
          
             if( $line =~ /\AV (\d+)\z/ ) {
@@ -125,7 +126,7 @@ sub read_property_block {
                 # FIXME what happens if we see duplicate keys?
             }
             else {
-                croak "Corrupted property"; # FIXME better error message
+                confess "Corrupted property"; # FIXME better error message
             }
         }
         # or a deleted key (only with fs-format-version >= 3)
@@ -143,7 +144,7 @@ sub read_property_block {
         }
         # inconsistent data
         else {
-            croak "Corrupted property"; # FIXME better error message
+            confess "Corrupted property"; # FIXME better error message
         }
     }
 
@@ -158,7 +159,7 @@ sub read_text_block {
     my $text = '';
     while( length($text) <= $size ) {
         my $line = <$fh>;
-        croak _eof() if ! defined $line;
+        confess _eof() if ! defined $line;
         $text .= $line;
     }
 

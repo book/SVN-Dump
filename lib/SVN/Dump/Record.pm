@@ -1,4 +1,5 @@
 package SVN::Dump::Record;
+# vim: ts=4 sw=4 expandtab
 
 use strict;
 use warnings;

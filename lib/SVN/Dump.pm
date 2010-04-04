@@ -1,8 +1,9 @@
 package SVN::Dump;
+# vim: ts=4 sw=4 expandtab
 
 use strict;
 use warnings;
-use Carp;
+use Carp qw(croak);
 
 use SVN::Dump::Reader;
 

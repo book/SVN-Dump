@@ -1,8 +1,9 @@
 package SVN::Dump::Headers;
+# vim: ts=4 sw=4 expandtab
 
 use strict;
 use warnings;
-use Carp;
+use Carp qw(croak confess);
 use Scalar::Util qw( reftype );
 
 my $NL = "\012";
@@ -68,7 +69,7 @@ sub type {
         : exists $self->{'Revision-number'}            ? 'revision'
         : exists $self->{'UUID'}                       ? 'uuid'
         : exists $self->{'SVN-fs-dump-format-version'} ? 'format'
-        :   croak 'Unable to determine the record type';
+        :   confess 'Unable to determine the record type';
 
     return $type;
 }
