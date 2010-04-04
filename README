@@ -1,3 +1,11 @@
+About This Fork
+---------------
+
+This is a temporary fork of gitpan's SVN-Dump.  It exists to track and
+distribute my patches against the module until the author publishes a
+repository somewhere.  At that point, I'll replace this with a proper
+fork of his work.
+
 SVN::Dump
 ---------
 
