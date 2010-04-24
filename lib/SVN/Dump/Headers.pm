@@ -39,6 +39,7 @@ my %headers = (
             Text-delta
             Text-content-length
             Text-content-md5
+            Text-content-sha1
             Content-length
             )
     ],
