@@ -103,9 +103,12 @@ SVN::Dump::Headers - Headers of a SVN dump record
 
 =head1 SYNOPSIS
 
+    # SVN::Dump::Headers objects are returned by the read_header_block()
+    # method of SVN::Dump::Reader
+
 =head1 DESCRIPTION
 
-An C<SVN::Dump::Headers> object represents the headers of a
+A C<SVN::Dump::Headers> object represents the headers of a
 SVN dump record.
 
 =head1 METHODS

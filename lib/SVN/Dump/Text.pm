@@ -28,7 +28,13 @@ SVN::Dump::Text - A text block from a svn dump
 
 =head1 SYNOPSIS
 
+    # SVN::Dump::Text objects are returned by the read_text_block()
+    # method of SVN::Dump::Reader
+
 =head1 DESCRIPTION
+
+A C<SVN::Dump::Text> object represents the text of a
+SVN dump record.
 
 =head1 METHODS
 

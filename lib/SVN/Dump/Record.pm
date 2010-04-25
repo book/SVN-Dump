@@ -153,7 +153,7 @@ SVN::Dump::Record - A SVN dump record
 
 =head1 SYNOPSIS
 
-    # SVN::Dump::Record objects are returns by the next_record()
+    # SVN::Dump::Record objects are returned by the next_record()
     # method of SVN::Dump
 
 =head1 DESCRIPTION
