@@ -18,9 +18,10 @@ my $NL = "\012";
 
 # the object is a filehandle
 sub new {
-    my ($class, $fh) = @_;
+    my ($class, $fh, $args) = @_;
     croak 'SVN::Dump::Reader parameter is not a filehandle'
         if !( $fh && ref $fh && ref($fh) eq 'GLOB' );
+    %{*$fh} = %{ $args || {} };
     return bless $fh, $class;
 }
 

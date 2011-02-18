@@ -16,11 +16,11 @@ sub new {
 
     # we have a reader
     if ( exists $args->{fh} || exists $args->{file} ) {
-        my $fh = $args->{fh};
+        my ( $fh, $file ) = delete @{$args}{qw( fh file )};
         if ( !$fh ) {
-            open $fh, $args->{file} or croak "Can't open $args->{file}: $!";
+            open $fh, $file or croak "Can't open $file: $!";
         }
-        $self->{reader} = SVN::Dump::Reader->new($fh);
+        $self->{reader} = SVN::Dump::Reader->new( $fh, $args );
     }
     # we don't have a reader
     else {
@@ -170,6 +170,9 @@ The argument list is a hash reference.
 If the C<SVN::Dump> object will read information from a file,
 the arguments C<file> is used (as usal, C<-> means C<STDIN>);
 if the dump is read from a filehandle, C<fh> is used.
+
+Extra options will be passed to the C<SVN::Dump::Reader> object
+that is created.
 
 If the C<SVN::Dump> isn't used to read information, the parameters
 C<version> and C<uuid> can be used to initialise the values
