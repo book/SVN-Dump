@@ -24,7 +24,7 @@ for my $f (@files) {
             next;
         };
 
-        $dump = SVN::Dump->new( { fh => $fh } );
+        $dump = SVN::Dump->new( { fh => $fh, check_digest => 1 } );
     }
     # once with a filename
     else {

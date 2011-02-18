@@ -19,7 +19,7 @@ for my $f (@files) {
     chop for ($err, $func);
     ($func, my @args) = split / /, $func;
 
-    my $r = SVN::Dump::Reader->new($fh);
+    my $r = SVN::Dump::Reader->new( $fh, { check_digest => 1 } );
     eval { $r->$func(@args); };
     ok( $@, "$func(@{[join',',@args]}) failed for $f" );
     like( $@, qr/$err/, "  with the expected error ($err)" );
