@@ -16,6 +16,11 @@ use SVN::Dump::Record;
 # some useful definitions
 my $NL = "\012";
 
+# prepare the digest checkers
+my @digest = grep {
+    eval { require Digest; Digest->new(uc) }
+} qw( md5 sha1 );
+
 # the object is a filehandle
 sub new {
     my ($class, $fh, $args) = @_;
@@ -45,12 +50,27 @@ sub read_record {
         );
 
     # get the text block
-    $record->set_text_block(
-        $fh->read_text_block( $headers->{'Text-content-length'} ) )
-        if (
-            exists $headers->{'Text-content-length'} and
-            $headers->{'Text-content-length'}
-        );
+    if ( exists $headers->{'Text-content-length'}
+        and $headers->{'Text-content-length'} )
+    {
+        my $text = $fh->read_text_block( $headers->{'Text-content-length'} );
+
+        # verify checksums (but not in delta dumps)
+        if (${*$fh}{check_digest}
+            && (  !$headers->{'Text-delta'}
+                || $headers->{'Text-delta'} ne 'true' )
+            )
+        {
+            for my $algo ( grep { $headers->{"Text-content-$_"} } @digest ) {
+                my $digest = $text->digest($algo);
+                croak
+                    qq{$algo checksum mismatch: got $digest, expected $headers->{"Text-content-$algo"}}
+                    if $headers->{"Text-content-$algo"} ne $digest;
+            }
+        }
+
+        $record->set_text_block($text);
+    }
 
     # some safety checks
     croak "Inconsistent record size"
@@ -203,13 +223,22 @@ The following methods are available:
 
 =over 4
 
-=item new( $fh )
+=item new( $fh, \%options )
 
 Create a new C<SVN::Dump::Reader> attached to the C<$fh> filehandle.
+
+The only supported option is C<check_digest>, which is disabled
+by default.
 
 =item read_record( )
 
 Read and return a new S<SVN::Dump::Record> object from the dump filehandle.
+
+If the option C<check_digest> is enabled, this method will recompute
+the digests for a dump without deltas, based on the information in the
+C<Text-content-md5> and C<Text-content-sha1> headers (if the corresponding
+C<Digest::> module is availabled). In case of a mismatch, the routine
+will C<die()> with an exception complaining about a C<checksum mismatch>.
 
 =item read_header_block( )
 
