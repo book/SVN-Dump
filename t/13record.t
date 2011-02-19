@@ -5,7 +5,7 @@ use t::Utils;
 
 use SVN::Dump::Record;
 
-plan tests => 29;
+plan tests => 30;
 
 # the record object
 my $rec = SVN::Dump::Record->new();
@@ -91,4 +91,13 @@ $scalar = $rec->delete_property(qw(foo bar));
 is( $scalar, 22, '$scalar is 22 (perldoc -f delete)' );
 my @array = $rec->delete_property(qw(foo bar baz));
 is_deeply( \@array, [ undef, undef, 33 ], '@array is (undef, undef,33)' );
+
+# test a record without properties
+$rec = SVN::Dump::Record->new;
+$rec->set_header( "Node-path",   "trunk/fubar.txt" );
+$rec->set_header( "Node-kind",   "file" );
+$rec->set_header( "Node-action", "change" );
+$rec->set_text("some text");
+ok( $rec->as_string !~ /^Prop-content-length: 0$/m,
+    "No Prop-content-length: 0" );
 

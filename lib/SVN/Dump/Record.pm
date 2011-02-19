@@ -87,7 +87,8 @@ sub update_headers {
 
     $self->set_header( 'Text-content-length' => $textlen )
         if defined $self->get_text_block();
-    $self->set_header( 'Prop-content-length', $proplen );
+    $self->set_header( 'Prop-content-length', $proplen )
+        if $proplen;
     $self->set_header( 'Content-length' => $proplen + $textlen );
 }
 
