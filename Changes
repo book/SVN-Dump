@@ -1,5 +1,18 @@
 Revision history for SVN-Dump
 
+0.05 Sat Feb 19 03:51:57 CET 2011
+        [ENHANCEMENTS]
+        - Add support for Text-content-sha1 node property
+        - Don't create text or property blocks if they don't exist in
+          a dump. (Rocco Caputo)
+        - Add a digest() method to SVN::Dump::Text
+          (Inspired by a patch by Scott MacPhee, RT #56868)
+        - Add support for Text-content-sha1 / Text-copy-source-sha1
+          (RT #60207)
+        - New option check_digest that will, when reading a non-delta
+          dump, ensure that the content digest are valid
+        - Properly ignore blank lines between records (RT #25467, #28645)
+
 0.04 Thu Jun 12 16:48:23 CEST 2008
         [ENHANCEMENTS]
         - doesn't lose the PerlIO layers when given a filehandle

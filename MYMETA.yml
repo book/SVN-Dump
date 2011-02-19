@@ -1,0 +1,32 @@
+---
+abstract: 'A Perl interface to Subversion dumps'
+author:
+  - "Philippe \"BooK\" Bruhat <book@cpan.org>"
+configure_requires:
+  Module::Build: 0.36
+dynamic_config: 0
+generated_by: 'Module::Build version 0.3607'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: SVN-Dump
+provides:
+  SVN::Dump:
+    file: lib/SVN/Dump.pm
+    version: 0.05
+  SVN::Dump::Headers:
+    file: lib/SVN/Dump/Headers.pm
+  SVN::Dump::Property:
+    file: lib/SVN/Dump/Property.pm
+  SVN::Dump::Reader:
+    file: lib/SVN/Dump/Reader.pm
+  SVN::Dump::Record:
+    file: lib/SVN/Dump/Record.pm
+  SVN::Dump::Text:
+    file: lib/SVN/Dump/Text.pm
+requires:
+  Test::More: 0
+resources:
+  license: http://dev.perl.org/licenses/
+version: 0.05
