@@ -344,9 +344,11 @@ any modification of the record.
 
 C<SVN::Dump::Headers>, C<SVN::Dump::Property>, C<SVN::Dump::Text>.
 
-=head1 COPYRIGHT & LICENSE
+=head1 COPYRIGHT
 
-Copyright 2006 Philippe 'BooK' Bruhat, All Rights Reserved.
+Copyright 2006-2011 Philippe 'BooK' Bruhat, All Rights Reserved.
+
+=head1 LICENSE
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

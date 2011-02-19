@@ -208,7 +208,7 @@ SVN::Dump::Reader - A Subversion dump reader
     # !!! You should use SVN::Dump, not SVN::Dump::Reader !!!
 
     use SVN::Dump::Reader;
-    my $reader = SVN::Dump::Reader( $fh );
+    my $reader = SVN::Dump::Reader->new( $fh );
     my $record = $reader->read_record();
 
 =head1 DESCRIPTION
@@ -261,9 +261,11 @@ data from a stream.
 L<SVN::Dump>, L<SVN::Dump::Headers>, L<SVN::Dump::Property>,
 L<SVN::Dump::Text>.
 
-=head1 COPYRIGHT & LICENSE
+=head1 COPYRIGHT
 
-Copyright 2006 Philippe 'BooK' Bruhat, All Rights Reserved.
+Copyright 2006-2011 Philippe 'BooK' Bruhat, All Rights Reserved.
+
+=head1 LICENSE
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

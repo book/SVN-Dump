@@ -206,9 +206,14 @@ Return a string representation of the dump specific blocks
 
 C<SVN::Dump::Reader>, C<SVN::Dump::Record>.
 
-=head1 COPYRIGHT & LICENSE
+The reference document for Subversion dumpfiles is at:
+L<http://svn.apache.org/repos/asf/subversion/trunk/notes/dump-load-format.txt>
 
-Copyright 2006 Philippe 'BooK' Bruhat, All Rights Reserved.
+=head1 COPYRIGHT
+
+Copyright 2006-2011 Philippe Bruhat (BooK), All Rights Reserved.
+
+=head1 LICENSE
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
