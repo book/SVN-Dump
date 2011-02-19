@@ -11,6 +11,12 @@ my $builder = Module::Build->new(
         'Test::More' => 0,
     },
     add_to_cleanup      => [ 'SVN-Dump-*' ],
+    meta_merge => {
+        resources => {
+            repository => 'http://github.com/book/SVN-Dump',
+        },
+    },
+    license => 'perl',
 );
 
 $builder->create_build_script();
