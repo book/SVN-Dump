@@ -25,17 +25,19 @@ t/21property.t
 t/23record.t
 t/24reader.t
 t/25dump.t
+t/26dump_gz.t
+t/27transform.t
 t/29fail.t
-t/dump/fail/h_blank.svn
-t/dump/fail/h_empty.svn
 t/dump/fail/h_noblank.svn
 t/dump/fail/p_empty.svn
 t/dump/fail/p_eof.svn
 t/dump/fail/p_eofval.svn
 t/dump/fail/p_noend.svn
 t/dump/fail/p_noval.svn
+t/dump/fail/r_badsize.svn
 t/dump/fail/r_badsum.svn
 t/dump/fail/t_eof.svn
+t/dump/full/test123-r0-r10-v16.svn
 t/dump/full/test123-r0-r10.svn
 t/dump/full/test123-r0-r3.svn
 t/dump/full/test123-r0-r4.svn
@@ -43,6 +45,8 @@ t/dump/full/test123-r0-r6.svn
 t/dump/full/test123-r0.svn
 t/dump/full/test123-r11-r14-v3.svn
 t/dump/full/test123-v3.svn
+t/dump/full/test456-replace.svn
+t/dump/gzip/test123-r0-r4.svn.gz
 t/dump/headers/dir-node.svn
 t/dump/headers/file-node.svn
 t/dump/headers/format-record.svn
@@ -62,4 +66,5 @@ t/dump/records/revision-record.svn
 t/dump/records/uuid-record.svn
 t/pod-coverage.t
 t/pod.t
+t/README.txt
 t/Utils.pm
