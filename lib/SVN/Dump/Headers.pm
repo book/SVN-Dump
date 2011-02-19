@@ -36,6 +36,7 @@ my %headers = (
             Prop-delta
             Prop-content-length
             Text-copy-source-md5
+            Text-copy-source-sha1
             Text-delta
             Text-content-length
             Text-content-md5
