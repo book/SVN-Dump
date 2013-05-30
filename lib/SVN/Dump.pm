@@ -211,7 +211,7 @@ L<http://svn.apache.org/repos/asf/subversion/trunk/notes/dump-load-format.txt>
 
 =head1 COPYRIGHT
 
-Copyright 2006-2011 Philippe Bruhat (BooK), All Rights Reserved.
+Copyright 2006-2013 Philippe Bruhat (BooK), All Rights Reserved.
 
 =head1 LICENSE
 
@@ -219,4 +219,3 @@ This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
 
 =cut
-
