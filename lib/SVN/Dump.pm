@@ -110,9 +110,6 @@ SVN::Dump - A Perl interface to Subversion dumps
     
 =head1 DESCRIPTION
 
-B<This module is an alpha release. The interfaces will probably change
-in the future, as I slowly learn my way inside the SVN dump format.>
-
 An SVN::Dump object represents a Subversion dump.
 
 This module follow the semantics used in the reference document
