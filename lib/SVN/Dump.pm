@@ -113,7 +113,7 @@ SVN::Dump - A Perl interface to Subversion dumps
 B<This module is an alpha release. The interfaces will probably change
 in the future, as I slowly learn my way inside the SVN dump format.>
 
-An C<SVN::Dump> object represents a Subversion dump.
+An SVN::Dump object represents a Subversion dump.
 
 This module follow the semantics used in the reference document
 (the file F<notes/fs_dumprestore.txt> in the Subversion source tree):
@@ -122,13 +122,13 @@ This module follow the semantics used in the reference document
 
 =item *
 
-A dump is a collection of records (C<SVN::Dump::Record> objects).
+A dump is a collection of records (L<SVN::Dump::Record> objects).
 
 =item *
 
-A record is composed of a set of headers (a C<SVN::Dump::Headers> object),
-a set of properties (a C<SVN::Dump::Property> object) and an optional
-bloc of text (a C<SVN::Dump::Text> object).
+A record is composed of a set of headers (a L<SVN::Dump::Headers> object),
+a set of properties (a L<SVN::Dump::Property> object) and an optional
+bloc of text (a L<SVN::Dump::Text> object).
 
 =item *
 
@@ -140,7 +140,7 @@ recursively contain included records.
 Each class has a C<as_string()> method that prints its content
 in the dump format.
 
-The most basic thing you can do with C<SVN::Dump> is simply copy
+The most basic thing you can do with SVN::Dump is simply copy
 a dump:
 
     use SVN::Dump;
@@ -157,31 +157,31 @@ original dump.
 
 =head1 METHODS
 
-C<SVN::Dump> provides the following methods:
+SVN::Dump provides the following methods:
 
 =over 4
 
 =item new( \%args )
 
-Return a new C<SVN::Dump> object.
+Return a new SVN::Dump object.
 
 The argument list is a hash reference.
 
-If the C<SVN::Dump> object will read information from a file,
+If the SVN::Dump object will read information from a file,
 the arguments C<file> is used (as usal, C<-> means C<STDIN>);
 if the dump is read from a filehandle, C<fh> is used.
 
-Extra options will be passed to the C<SVN::Dump::Reader> object
+Extra options will be passed to the L<SVN::Dump::Reader> object
 that is created.
 
-If the C<SVN::Dump> isn't used to read information, the parameters
+If the SVN::Dump isn't used to read information, the parameters
 C<version> and C<uuid> can be used to initialise the values
 of the C<SVN-fs-dump-format-version> and C<UUID> headers.
 
 =item next_record()
 
 Return the next record read from the dump.
-This is a C<SVN::Dump::Record> object.
+This is a L<SVN::Dump::Record> object.
 
 =item version()
 
@@ -204,7 +204,7 @@ Return a string representation of the dump specific blocks
 
 =head1 SEE ALSO
 
-C<SVN::Dump::Reader>, C<SVN::Dump::Record>.
+L<SVN::Dump::Reader>, L<SVN::Dump::Record>.
 
 The reference document for Subversion dumpfiles is at:
 L<http://svn.apache.org/repos/asf/subversion/trunk/notes/dump-load-format.txt>

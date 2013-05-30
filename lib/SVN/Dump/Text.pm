@@ -41,7 +41,7 @@ SVN::Dump::Text - A text block from a svn dump
 
 =head1 DESCRIPTION
 
-A C<SVN::Dump::Text> object represents the text of a
+A SVN::Dump::Text object represents the text of a
 SVN dump record.
 
 =head1 METHODS
@@ -52,15 +52,15 @@ The following methods are available:
 
 =item new( $text )
 
-Create a new C<SVN::Dump::Text> object, initialised with the given text.
+Create a new SVN::Dump::Text object, initialised with the given text.
 
 =item get()
 
-Return the text of the C<SVN::Dump::Text> object.
+Return the text of the SVN::Dump::Text object.
 
 =item set( $text )
 
-Set the text of the C<SVN::Dump::Text> object.
+Set the text of the SVN::Dump::Text object.
 
 =item as_string()
 
@@ -69,13 +69,15 @@ Return a string representation of the text block.
 =item digest( $algo )
 
 Return a digest of the text computed with the C<$algo> algorithm in
-hexadecimal form. See the C<Digest> module for valid values of C<$algo>.
+hexadecimal form. See the L<Digest> module for valid values of C<$algo>.
 
 Return C<undef> if the digest algorithm is not supported.
 
 =back
 
 =head1 SEE ALSO
+
+L<SVN::Dump::Reader>, L<SVN::Dump::Record>.
 
 =head1 COPYRIGHT & LICENSE
 
@@ -85,4 +87,3 @@ This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
 
 =cut
-

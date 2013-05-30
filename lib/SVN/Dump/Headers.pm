@@ -109,18 +109,18 @@ SVN::Dump::Headers - Headers of a SVN dump record
 
 =head1 DESCRIPTION
 
-A C<SVN::Dump::Headers> object represents the headers of a
+A SVN::Dump::Headers object represents the headers of a
 SVN dump record.
 
 =head1 METHODS
 
-C<SVN::Dump::Headers> provides the following methods:
+SVN::Dump::Headers provides the following methods:
 
 =over 4
 
 =item new( [$hashref] )
 
-Create and return a new empty C<SVN::Dump::Headers> object.
+Create and return a new empty L<SVN::Dump::Headers> object.
 
 If C<$hashref> is given (it can be a blessed hash reference), the
 keys from the hash are used to initialise the headers.
@@ -158,13 +158,15 @@ The method dies if it can't determine the record type.
 
 =head1 ENCAPSULATION
 
-When using C<SVN::Dump> to manipulate a SVN dump, one should not directly
-access the C<SVN::Dump::Headers> component of a C<SVN::Dump::Record>, but
+When using L<SVN::Dump> to manipulate a SVN dump, one should not directly
+access the L<SVN::Dump::Headers> component of a L<SVN::Dump::Record>, but
 use the C<set_header()> and C<get_header()> methods of the record object.
 
 =head1 SEE ALSO
 
-C<SVN::Dump::Record>.
+L<SVN::Dump>,
+L<SVN::Dump::Reader>,
+L<SVN::Dump::Record>.
 
 =head1 COPYRIGHT
 

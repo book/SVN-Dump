@@ -218,7 +218,7 @@ SVN::Dump::Reader - A Subversion dump reader
 
 =head1 DESCRIPTION
 
-The C<SVN::Dump::Reader> class implements a reader object for Subversion
+The SVN::Dump::Reader class implements a reader object for Subversion
 dumps.
 
 =head1 METHODS
@@ -229,32 +229,32 @@ The following methods are available:
 
 =item new( $fh, \%options )
 
-Create a new C<SVN::Dump::Reader> attached to the C<$fh> filehandle.
+Create a new SVN::Dump::Reader attached to the C<$fh> filehandle.
 
 The only supported option is C<check_digest>, which is disabled
 by default.
 
 =item read_record( )
 
-Read and return a new S<SVN::Dump::Record> object from the dump filehandle.
+Read and return a new L<SVN::Dump::Record> object from the dump filehandle.
 
 If the option C<check_digest> is enabled, this method will recompute
 the digests for a dump without deltas, based on the information in the
 C<Text-content-md5> and C<Text-content-sha1> headers (if the corresponding
-C<Digest::> module is availabled). In case of a mismatch, the routine
+L<Digest> module is availabled). In case of a mismatch, the routine
 will C<die()> with an exception complaining about a C<checksum mismatch>.
 
 =item read_header_block( )
 
-Read and return a new S<SVN::Dump::Headers> object from the dump filehandle.
+Read and return a new L<SVN::Dump::Headers> object from the dump filehandle.
 
 =item read_property_block( )
 
-Read and return a new S<SVN::Dump::Property> object from the dump filehandle.
+Read and return a new L<SVN::Dump::Property> object from the dump filehandle.
 
 =item read_text_block( )
 
-Read and return a new S<SVN::Dump::Text> object from the dump filehandle.
+Read and return a new L<SVN::Dump::Text> object from the dump filehandle.
 
 =back
 
@@ -263,7 +263,7 @@ data from a stream.
 
 =head1 SEE ALSO
 
-L<SVN::Dump>, L<SVN::Dump::Headers>, L<SVN::Dump::Property>,
+L<SVN::Dump>, L<SVN::Dump::Record>, L<SVN::Dump::Headers>, L<SVN::Dump::Property>,
 L<SVN::Dump::Text>.
 
 =head1 COPYRIGHT
