@@ -68,3 +68,4 @@ xt/pod-coverage.t
 xt/pod.t
 t/README.txt
 t/Utils.pm
+META.json

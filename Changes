@@ -1,5 +1,12 @@
 Revision history for SVN-Dump
 
+0.06 Fri May 31 2013
+        [ENHANCEMENTS]
+        - speed optimization when reading a dump (thanks to Andrew Sayers)
+        [DOCUMENTATION]
+        - a few documentation tweaks (thanks to David Landgren)
+        - imoproved inter-documentation links
+
 0.05 Sat Feb 19 03:51:57 CET 2011
         [ENHANCEMENTS]
         - Add support for Text-content-sha1 node property
