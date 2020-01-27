@@ -142,8 +142,10 @@ a dump:
 
     use SVN::Dump;
 
-    my $dump = SVN::Dump->new( 'mydump.svn' );
-    print $dump->as_string(); # only print the dump header
+    my $dump = SVN::Dump->new( { file => 'mydump.svn' } );
+    $dump->next_record;          # read the format header
+    $dump->next_record;          # read the uuid header
+    print $dump->as_string();    # only print the dump header
 
     while( $rec = $dump->next_record() ) {
         print $rec->as_string();
