@@ -1,5 +1,7 @@
 Revision history for SVN-Dump
 
+{{$NEXT}}
+
 0.06 2013-05-31 BOOK
         [ENHANCEMENTS]
         - speed optimization when reading a dump (thanks to Andrew Sayers)
