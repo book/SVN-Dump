@@ -2,6 +2,14 @@ Revision history for SVN-Dump
 
 {{$NEXT}}
 
+0.07 2020-01-30 BOOK
+    [DOCUMENTATION]
+    - Fix a code example - RT #130903 (DJERIUS)
+    [TESTS]
+    - Ensure the test suite works when @INC does not contain '.'
+    [PACKAGING]
+    - Switch to Dist::Zilla as the distribution builder
+
 0.06 2013-05-31 BOOK
     [ENHANCEMENTS]
     - speed optimization when reading a dump (thanks to Andrew Sayers)
