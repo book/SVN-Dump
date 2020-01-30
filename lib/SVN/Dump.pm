@@ -210,7 +210,7 @@ L<http://svn.apache.org/repos/asf/subversion/trunk/notes/dump-load-format.txt>
 
 =head1 COPYRIGHT
 
-Copyright 2006-2013 Philippe Bruhat (BooK), All Rights Reserved.
+Copyright 2006-2020 Philippe Bruhat (BooK), All Rights Reserved.
 
 =head1 LICENSE
 
