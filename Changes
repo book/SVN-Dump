@@ -1,13 +1,13 @@
 Revision history for SVN-Dump
 
-0.06 Fri May 31 2013
+0.06 2013-05-31 BOOK
         [ENHANCEMENTS]
         - speed optimization when reading a dump (thanks to Andrew Sayers)
         [DOCUMENTATION]
         - a few documentation tweaks (thanks to David Landgren)
         - imoproved inter-documentation links
 
-0.05 Sat Feb 19 03:51:57 CET 2011
+0.05 2011-02-19 BOOK
         [ENHANCEMENTS]
         - Add support for Text-content-sha1 node property
         - Don't create text or property blocks if they don't exist in
@@ -20,12 +20,12 @@ Revision history for SVN-Dump
           dump, ensure that the content digest are valid
         - Properly ignore blank lines between records (RT #25467, #28645)
 
-0.04 Thu Jun 12 16:48:23 CEST 2008
+0.04 2008-06-12 BOOK
         [ENHANCEMENTS]
         - doesn't lose the PerlIO layers when given a filehandle
           (e.g. after a binmode( $fh, ':gzip' ) call)
 
-0.03 Tue Nov 21 01:14:43 CET 2006
+0.03 2006-11-21 BOOK
         [ENHANCEMENTS]
         - Allow the use of '_' for '-' for header names in SVN::Dump::Headers
         - SVN::Dump::new() now accepts parameters 'version' and 'uuid'
@@ -36,7 +36,7 @@ Revision history for SVN-Dump
         - SVN::Dump::Record::delete_property() does the same
         - SVN::Dump::Headers::new() can initialise the headers with a hashref
 
-0.02 Sat Nov  4 01:34:08 CET 2006
+0.02 2006-11-04 BOOK
 
         *** WARNING: INCOMPATIBLES API CHANGES FROM VERSION 0.01 ***
 
@@ -60,7 +60,7 @@ Revision history for SVN-Dump
 
         *** WARNING: INCOMPATIBLES API CHANGES FROM VERSION 0.01 ***
 
-0.01 Wed Oct 18 18:25:31 CEST 2006
+0.01 2006-10-18 BOOK
         [FEATURES]
         - SVN::Dump is able to read dumps in version 2 and 3
           and output an identical dump
