@@ -2,6 +2,10 @@ Revision history for SVN-Dump
 
 {{$NEXT}}
 
+0.09 2024-07-28 ELBEHO
+    - Better filehandle detection in SVN::Dump::Reader, now works on older version of Perl
+    - Use open with 3 args in SVN::Dump
+
 0.08 2020-03-02 BOOK
     - Make SVN::Dump::Reader more liberal in what it accepts for 'fh' - RT #24032
 

@@ -25,7 +25,7 @@ my @digest = grep {
 sub new {
     my ($class, $fh, $args) = @_;
     croak 'SVN::Dump::Reader parameter is not a filehandle'
-      unless eval { $fh && ref $fh && $fh->can('getline') && $fh->can('read') };
+      unless eval { $fh && ref $fh && $fh->opened };
     %{*$fh} = %{ $args || {} };
     return bless $fh, $class;
 }

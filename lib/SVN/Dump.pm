@@ -18,7 +18,11 @@ sub new {
     if ( exists $args->{fh} || exists $args->{file} ) {
         my ( $fh, $file ) = delete @{$args}{qw( fh file )};
         if ( !$fh ) {
-            open $fh, $file or croak "Can't open $file: $!";
+            if ( $file eq '-' ) {
+                open $fh, '<-' or croak "Can't open STDIN: $!";
+            } else {
+                open $fh, '<', $file or croak "Can't open $file: $!";
+            }
         }
         $self->{reader} = SVN::Dump::Reader->new( $fh, $args );
     }
